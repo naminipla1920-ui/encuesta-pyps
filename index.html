@@ -554,21 +554,41 @@ function validarSec6() {
 }
 
 function enviarDatos() {
-  // Recolectar checkboxes P17
   const p17 = Array.from(document.querySelectorAll('input[name="P17"]:checked')).map(e => e.value).join(', ') || 'Ninguno';
+
+  // Capturar valores de campos abiertos
+  const p5b_val = getRadio('P5b') === 'Otra' 
+    ? 'Otra: ' + document.getElementById('P5b-otro').value 
+    : getRadio('P5b') || '';
+
+  const p15_val = getRadio('P15') === 'Otro' 
+    ? 'Otro: ' + document.getElementById('P15-otro').value 
+    : getRadio('P15') || '';
+
+  const p19_val = getRadio('P19') === 'Otro' 
+    ? 'Otro: ' + document.getElementById('P19-otro').value 
+    : getRadio('P19') || '';
+
+  const p20_base = getRadio('P20');
+  let p20_val = p20_base || '';
+  if (p20_base === 'Cundinamarca') {
+    p20_val = 'Cundinamarca: ' + document.getElementById('P20-cund').value;
+  } else if (p20_base === 'Otro') {
+    p20_val = 'Otro: ' + document.getElementById('P20-otro').value;
+  }
 
   const datos = {
     id_encuesta: Date.now(),
     P1: getRadio('P1'), P2: getRadio('P2'), P3: getRadio('P3'),
     P4: getRadio('P4'),
     P5a: getRadio('P5a') || '',
-    P5b: getRadio('P5b') || '',
+    P5b: p5b_val,
     P6: getRadio('P6'), P7: getRadio('P7'), P8: getRadio('P8'),
     P9: getRadio('P9'), P10: getRadio('P10'),
     P11: getRadio('P11'), P12: getRadio('P12'), P13: getRadio('P13'),
-    P14: getRadio('P14'), P15: getRadio('P15'), P16: getRadio('P16'),
+    P14: getRadio('P14'), P15: p15_val, P16: getRadio('P16'),
     P17: p17,
-    P18: getRadio('P18'), P19: getRadio('P19'), P20: getRadio('P20'),
+    P18: getRadio('P18'), P19: p19_val, P20: p20_val,
     P21: document.getElementById('P21').value,
     P22: document.getElementById('P22').value,
     P23: document.getElementById('P23').value,
@@ -577,6 +597,10 @@ function enviarDatos() {
     E4: getRadio('E4'), E5: getRadio('E5'), E6: getRadio('E6'),
     E7: getRadio('E7'), E8: getRadio('E8'), E9: getRadio('E9')
   };
+
+  // Deshabilitar botón para evitar doble envío
+  document.querySelector('#sec6 .btn').disabled = true;
+  document.querySelector('#sec6 .btn').textContent = 'Enviando...';
 
   fetch(GOOGLE_SCRIPT_URL, {
     method: 'POST',
