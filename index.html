@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encuesta PyPS – Universidad de los Andes</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; color: #222; }
+  .container { max-width: 750px; margin: 30px auto; background: white; border-radius: 10px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+  h1 { color: #003366; font-size: 1.3em; margin-bottom: 10px; }
+  h2 { color: #003366; font-size: 1.1em; margin: 20px 0 10px; border-bottom: 2px solid #F5A800; padding-bottom: 5px; }
+  .pregunta { margin-bottom: 20px; }
+  .pregunta label { display: block; font-weight: bold; margin-bottom: 8px; }
+  .pregunta p { margin-bottom: 8px; font-weight: bold; }
+  .opcion { display: block; margin: 5px 0; font-weight: normal; }
+  .opcion input { margin-right: 8px; }
+  input[type="number"], input[type="text"] { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em; margin-top: 5px; }
+  .escala { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px; }
+  .escala label { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 0.85em; cursor: pointer; }
+  .btn { background: #F5A800; color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 1em; cursor: pointer; margin-top: 20px; width: 100%; }
+  .btn:hover { background: #d4900a; }
+  .oculto { display: none; }
+  .seccion { display: none; }
+  .seccion.activa { display: block; }
+  .alerta { color: red; font-size: 0.9em; margin-top: 5px; display: none; }
+  .tarjeta-escenario { display: grid; grid-template-columns: 150px 1fr 1fr 1fr; border: 1px solid #ccc; border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
+  .tarjeta-escenario .celda { padding: 12px; border: 1px solid #eee; text-align: center; }
+  .tarjeta-escenario .header { background: #F5A800; color: white; font-weight: bold; }
+  .tarjeta-escenario .etiqueta { background: #f9f9f9; font-weight: bold; text-align: left; }
+  .opciones-escenario { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .opciones-escenario label { display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 8px 15px; border: 2px solid #ccc; border-radius: 8px; }
+  .opciones-escenario input[type="radio"]:checked + span { color: #F5A800; font-weight: bold; }
+  .progreso { background: #eee; border-radius: 10px; height: 8px; margin-bottom: 20px; }
+  .progreso-barra { background: #F5A800; height: 8px; border-radius: 10px; transition: width 0.3s; }
+  .fin-mensaje { text-align: center; padding: 30px; }
+  .fin-mensaje h2 { color: #003366; font-size: 1.5em; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- PROGRESO -->
+  <div class="progreso"><div class="progreso-barra" id="barra" style="width:0%"></div></div>
+
+  <!-- ===================== SECCIÓN 1 ===================== -->
+  <div class="seccion activa" id="sec1">
+    <h1>Encuesta de Preferencias Declaradas</h1>
+    <h2>Sección 1: Consentimiento informado</h2>
+    <p style="margin-bottom:15px; line-height:1.6">La presente encuesta hace parte de una investigación académica desarrollada por <strong>Natalia Milena Niño Plata</strong>, estudiante de Maestría en Ingeniería Civil con énfasis en Transporte de la Universidad de los Andes.<br><br>
+    El objetivo es analizar los factores que influyen en las decisiones de movilidad de conductores bogotanos ante el Pico y Placa. Su participación consiste en responder un cuestionario de aproximadamente 15 minutos.<br><br>
+    Su participación es voluntaria y sus respuestas serán tratadas de forma anónima y confidencial, usándose únicamente con fines académicos.</p>
+
+    <div class="pregunta">
+      <p>P1: ¿Acepta participar en esta investigación?</p>
+      <label class="opcion"><input type="radio" name="P1" value="Si"> Sí, acepto</label>
+      <label class="opcion"><input type="radio" name="P1" value="No"> No acepto</label>
+      <span class="alerta" id="alerta-P1">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P2: ¿Es usted propietario o conductor habitual de un vehículo particular que circule en Bogotá?</p>
+      <label class="opcion"><input type="radio" name="P2" value="Si"> Sí</label>
+      <label class="opcion"><input type="radio" name="P2" value="No"> No</label>
+      <span class="alerta" id="alerta-P2">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P3: ¿Su vehículo tiene restricción de Pico y Placa en Bogotá?</p>
+      <label class="opcion"><input type="radio" name="P3" value="Si"> Sí</label>
+      <label class="opcion"><input type="radio" name="P3" value="No"> No</label>
+      <span class="alerta" id="alerta-P3">Por favor seleccione una opción</span>
+    </div>
+
+    <button class="btn" onclick="validarSec1()">Continuar →</button>
+  </div>
+
+  <!-- PANTALLA FILTRO -->
+  <div class="seccion" id="sec-filtro">
+    <div class="fin-mensaje">
+      <h2>Gracias por su interés</h2>
+      <p style="margin-top:15px">Lamentablemente no cumple con el perfil requerido para esta investigación.<br>Agradecemos su tiempo.</p>
+    </div>
+  </div>
+
+  <!-- ===================== SECCIÓN 2 ===================== -->
+  <div class="seccion" id="sec2">
+    <h2>Sección 2: Experiencia con PyPS</h2>
+
+    <div class="pregunta">
+      <p>P4: ¿Ha utilizado alguna vez el Pico y Placa Solidario (PyPS)?</p>
+      <label class="opcion"><input type="radio" name="P4" value="Si" onclick="mostrarP5()"> Sí</label>
+      <label class="opcion"><input type="radio" name="P4" value="No" onclick="mostrarP5()"> No</label>
+      <span class="alerta" id="alerta-P4">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta oculto" id="div-P5a">
+      <p>P5a: En una semana típica, ¿cuántos días adquiere un permiso PyPS?</p>
+      <label class="opcion"><input type="radio" name="P5a" value="Menos de 1 día"> Menos de 1 día a la semana</label>
+      <label class="opcion"><input type="radio" name="P5a" value="1 día"> 1 día a la semana</label>
+      <label class="opcion"><input type="radio" name="P5a" value="2 días"> 2 días a la semana</label>
+      <label class="opcion"><input type="radio" name="P5a" value="3 días"> 3 días a la semana</label>
+    </div>
+
+    <div class="pregunta oculto" id="div-P5b">
+      <p>P5b: ¿Cuál es la principal razón por la que no ha usado el PyPS?</p>
+      <label class="opcion"><input type="radio" name="P5b" value="Es muy costoso"> Es muy costoso</label>
+      <label class="opcion"><input type="radio" name="P5b" value="Trámite complicado"> El trámite es complicado</label>
+      <label class="opcion"><input type="radio" name="P5b" value="Prefiero otro modo"> Prefiero usar otro medio de transporte</label>
+      <label class="opcion"><input type="radio" name="P5b" value="No sabía que existía"> No sabía que existía</label>
+      <label class="opcion"><input type="radio" name="P5b" value="Otra"> Otra: <input type="text" id="P5b-otro" placeholder="Especifique" style="width:200px; display:inline; margin-left:5px"></label>
+    </div>
+
+    <button class="btn" onclick="validarSec2()">Continuar →</button>
+  </div>
+
+  <!-- ===================== SECCIÓN 3 ===================== -->
+  <div class="seccion" id="sec3">
+    <h2>Sección 3: Aceptación del programa</h2>
+    <p style="margin-bottom:15px"><em>Escala: 1 = Totalmente en desacuerdo, 5 = Totalmente de acuerdo</em></p>
+
+    <div class="pregunta">
+      <p>P6: El PyPS es una medida justa porque permite circular a quienes más lo necesitan, independientemente de su ingreso.</p>
+      <div class="escala" id="escala-P6"></div>
+      <span class="alerta" id="alerta-P6">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P7: El PyPS es una alternativa razonable para quienes necesitan circular en días de restricción.</p>
+      <div class="escala" id="escala-P7"></div>
+      <span class="alerta" id="alerta-P7">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P8: El proceso para adquirir un permiso PyPS (registro, pago, uso) es fácil y conveniente.</p>
+      <div class="escala" id="escala-P8"></div>
+      <label class="opcion" style="margin-top:5px"><input type="radio" name="P8" value="NS/NR"> NS/NR</label>
+      <span class="alerta" id="alerta-P8">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P9: El precio del permiso PyPS es razonable en comparación con los beneficios que ofrece.</p>
+      <div class="escala" id="escala-P9"></div>
+      <span class="alerta" id="alerta-P9">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P10: Estoy de acuerdo con que exista un programa como el PyPS como alternativa al Pico y Placa tradicional.</p>
+      <div class="escala" id="escala-P10"></div>
+      <span class="alerta" id="alerta-P10">Por favor seleccione una opción</span>
+    </div>
+
+    <button class="btn" onclick="validarSec3()">Continuar →</button>
+  </div>
+
+  <!-- ===================== SECCIÓN 4 ===================== -->
+  <div class="seccion" id="sec4">
+    <h2>Sección 4: Perfil socioeconómico</h2>
+
+    <div class="pregunta">
+      <p>P11: ¿Con qué identidad de género se identifica?</p>
+      <label class="opcion"><input type="radio" name="P11" value="Mujer"> Mujer</label>
+      <label class="opcion"><input type="radio" name="P11" value="Hombre"> Hombre</label>
+      <label class="opcion"><input type="radio" name="P11" value="No binario"> No binario</label>
+      <label class="opcion"><input type="radio" name="P11" value="Otro"> Otro</label>
+      <span class="alerta" id="alerta-P11">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P12: ¿En qué estrato socioeconómico se encuentra ubicada su vivienda?</p>
+      <label class="opcion"><input type="radio" name="P12" value="1"> 1</label>
+      <label class="opcion"><input type="radio" name="P12" value="2"> 2</label>
+      <label class="opcion"><input type="radio" name="P12" value="3"> 3</label>
+      <label class="opcion"><input type="radio" name="P12" value="4"> 4</label>
+      <label class="opcion"><input type="radio" name="P12" value="5"> 5</label>
+      <label class="opcion"><input type="radio" name="P12" value="6"> 6</label>
+      <label class="opcion"><input type="radio" name="P12" value="NS/NR"> NS/NR</label>
+      <span class="alerta" id="alerta-P12">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P13: ¿Cuál es el ingreso mensual aproximado de su hogar?</p>
+      <label class="opcion"><input type="radio" name="P13" value="Menos de $2.000.000"> Menos de $2.000.000</label>
+      <label class="opcion"><input type="radio" name="P13" value="$2M-$4M"> Entre $2.000.000 y $4.000.000</label>
+      <label class="opcion"><input type="radio" name="P13" value="$4M-$7M"> Entre $4.000.000 y $7.000.000</label>
+      <label class="opcion"><input type="radio" name="P13" value="$7M-$12M"> Entre $7.000.000 y $12.000.000</label>
+      <label class="opcion"><input type="radio" name="P13" value="Más de $12.000.000"> Más de $12.000.000</label>
+      <label class="opcion"><input type="radio" name="P13" value="NS/NR"> NS/NR</label>
+      <span class="alerta" id="alerta-P13">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P14: ¿Cuál es su nivel educativo más alto alcanzado?</p>
+      <label class="opcion"><input type="radio" name="P14" value="Bachillerato o menos"> Bachillerato o menos</label>
+      <label class="opcion"><input type="radio" name="P14" value="Técnico/Tecnólogo"> Técnico / Tecnólogo</label>
+      <label class="opcion"><input type="radio" name="P14" value="Universitario"> Universitario</label>
+      <label class="opcion"><input type="radio" name="P14" value="Posgrado"> Posgrado</label>
+      <span class="alerta" id="alerta-P14">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P15: ¿Cuál de las siguientes alternativas representa mejor la actividad en la que usted ocupa la mayor parte de su tiempo?</p>
+      <label class="opcion"><input type="radio" name="P15" value="Estudia"> Estudia</label>
+      <label class="opcion"><input type="radio" name="P15" value="Trabaja"> Trabaja</label>
+      <label class="opcion"><input type="radio" name="P15" value="Se dedica al hogar"> Se dedica al hogar</label>
+      <label class="opcion"><input type="radio" name="P15" value="Pensionado/a"> Pensionado/a</label>
+      <label class="opcion"><input type="radio" name="P15" value="Otro"> Otro: <input type="text" id="P15-otro" placeholder="Especifique" style="width:200px; display:inline; margin-left:5px"></label>
+      <label class="opcion"><input type="radio" name="P15" value="NS/NR"> NS/NR</label>
+      <span class="alerta" id="alerta-P15">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P16: ¿Es conductor de alguna plataforma? Por ejemplo: Uber, Didi, Yango, Cabify, etc.</p>
+      <label class="opcion"><input type="radio" name="P16" value="Si"> Sí</label>
+      <label class="opcion"><input type="radio" name="P16" value="No"> No</label>
+      <span class="alerta" id="alerta-P16">Por favor seleccione una opción</span>
+    </div>
+
+    <button class="btn" onclick="validarSec4()">Continuar →</button>
+  </div>
+
+  <!-- ===================== SECCIÓN 5 ===================== -->
+  <div class="seccion" id="sec5">
+    <h2>Sección 5: Patrones de movilidad</h2>
+
+    <div class="pregunta">
+      <p>P17: ¿Cuál(es) de los siguientes vehículos tiene a su disposición para viajar? Seleccione todos los que apliquen.</p>
+      <label class="opcion"><input type="checkbox" name="P17" value="Carro adicional"> Carro adicional</label>
+      <label class="opcion"><input type="checkbox" name="P17" value="Moto"> Moto</label>
+      <label class="opcion"><input type="checkbox" name="P17" value="Bicicleta"> Bicicleta</label>
+      <label class="opcion"><input type="checkbox" name="P17" value="Patineta"> Patineta</label>
+      <label class="opcion"><input type="checkbox" name="P17" value="Ninguno"> Ninguno</label>
+    </div>
+
+    <div class="pregunta">
+      <p>P18: ¿Con qué frecuencia usa su vehículo particular en Bogotá?</p>
+      <label class="opcion"><input type="radio" name="P18" value="Menos de 1 vez"> Menos de 1 vez a la semana</label>
+      <label class="opcion"><input type="radio" name="P18" value="1-2 días"> 1 a 2 días a la semana</label>
+      <label class="opcion"><input type="radio" name="P18" value="3-5 días"> 3 a 5 días a la semana</label>
+      <label class="opcion"><input type="radio" name="P18" value="6-7 días"> 6 a 7 días a la semana</label>
+      <span class="alerta" id="alerta-P18">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P19: ¿Cuál es el motivo principal de sus viajes en vehículo particular?</p>
+      <label class="opcion"><input type="radio" name="P19" value="Trabajo"> Trabajo</label>
+      <label class="opcion"><input type="radio" name="P19" value="Estudio"> Estudio</label>
+      <label class="opcion"><input type="radio" name="P19" value="Diligencias personales"> Diligencias personales</label>
+      <label class="opcion"><input type="radio" name="P19" value="Cuidar o acompañar a alguien"> Cuidar o acompañar a alguien</label>
+      <label class="opcion"><input type="radio" name="P19" value="Otro"> Otro: <input type="text" id="P19-otro" placeholder="Especifique" style="width:200px; display:inline; margin-left:5px"></label>
+      <span class="alerta" id="alerta-P19">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P20: ¿En qué municipio está matriculado su vehículo?</p>
+      <label class="opcion"><input type="radio" name="P20" value="Bogotá D.C."> Bogotá D.C.</label>
+      <label class="opcion"><input type="radio" name="P20" value="Cundinamarca"> Cundinamarca: <input type="text" id="P20-cund" placeholder="Especifique municipio" style="width:200px; display:inline; margin-left:5px"></label>
+      <label class="opcion"><input type="radio" name="P20" value="Otro"> Otro: <input type="text" id="P20-otro" placeholder="Especifique" style="width:200px; display:inline; margin-left:5px"></label>
+      <span class="alerta" id="alerta-P20">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P21: ¿En qué localidad de Bogotá reside?</p>
+      <select name="P21" id="P21" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px; font-size:1em">
+        <option value="">-- Seleccione --</option>
+        <option>Usaquén</option><option>Chapinero</option><option>Santa Fe</option>
+        <option>San Cristóbal</option><option>Usme</option><option>Tunjuelito</option>
+        <option>Bosa</option><option>Kennedy</option><option>Fontibón</option>
+        <option>Engativá</option><option>Suba</option><option>Barrios Unidos</option>
+        <option>Teusaquillo</option><option>Los Mártires</option><option>Antonio Nariño</option>
+        <option>Puente Aranda</option><option>La Candelaria</option><option>Rafael Uribe Uribe</option>
+        <option>Ciudad Bolívar</option><option>Sumapaz</option>
+      </select>
+      <span class="alerta" id="alerta-P21">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P22: ¿En qué localidad se encuentra su destino habitual? (ej. trabajo, estudio)</p>
+      <select name="P22" id="P22" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px; font-size:1em">
+        <option value="">-- Seleccione --</option>
+        <option>Usaquén</option><option>Chapinero</option><option>Santa Fe</option>
+        <option>San Cristóbal</option><option>Usme</option><option>Tunjuelito</option>
+        <option>Bosa</option><option>Kennedy</option><option>Fontibón</option>
+        <option>Engativá</option><option>Suba</option><option>Barrios Unidos</option>
+        <option>Teusaquillo</option><option>Los Mártires</option><option>Antonio Nariño</option>
+        <option>Puente Aranda</option><option>La Candelaria</option><option>Rafael Uribe Uribe</option>
+        <option>Ciudad Bolívar</option><option>Sumapaz</option>
+      </select>
+      <span class="alerta" id="alerta-P22">Por favor seleccione una opción</span>
+    </div>
+
+    <div class="pregunta">
+      <p>P23: ¿Cuánto tiempo tardó aproximadamente su último viaje habitual en vehículo particular?</p>
+      <input type="number" id="P23" placeholder="Ingrese el tiempo en minutos" min="1" max="300">
+      <span style="font-size:0.9em; color:#666"> minutos</span>
+      <span class="alerta" id="alerta-P23">Por favor ingrese el tiempo en minutos</span>
+    </div>
+
+    <div class="pregunta" id="div-P24" style="display:none">
+      <p>P24: ¿Cuánto pagó la última vez que adquirió un permiso PyPS?</p>
+      <input type="number" id="P24" placeholder="Ingrese el valor en pesos COP" min="1">
+      <span style="font-size:0.9em; color:#666"> COP</span>
+      <span class="alerta" id="alerta-P24">Por favor ingrese el valor pagado</span>
+    </div>
+
+    <button class="btn" onclick="validarSec5()">Continuar →</button>
+  </div>
+
+  <!-- ===================== SECCIÓN 6 ===================== -->
+  <div class="seccion" id="sec6">
+    <h2>Sección 6: Experimento de elección</h2>
+    <p style="margin-bottom:15px; line-height:1.6"><em>Piense en el último viaje que realizó en su vehículo particular. Ahora suponga que mañana debe realizar ese mismo viaje, pero ese día tiene restricción de Pico y Placa. Dado que usted va a realizar el viaje de todas formas, ¿cuál de las siguientes opciones elegiría?</em></p>
+    <div id="contenedor-escenarios"></div>
+    <button class="btn" onclick="validarSec6()">Enviar encuesta</button>
+  </div>
+
+  <!-- FIN -->
+  <div class="seccion" id="sec-fin">
+    <div class="fin-mensaje">
+      <h2>¡Muchas gracias por su participación!</h2>
+      <p style="margin-top:15px">Sus respuestas han sido registradas exitosamente.<br>Su aporte es muy valioso para esta investigación.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ===================== CONFIGURACIÓN =====================
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdE7n67JnyPz8bWHVVvSwINw2gutvFmy-imzmk06ii1otA_ngrt19OLa_LDNyLpKGa/exec";
+const NETQUEST_REDIRECT = "PEGAR_URL_NETQUEST_AQUI";
+
+// ===================== DISEÑO ORTOGONAL =====================
+// Estructura: [precio_pyps, tiempo_pyps, costo_taxi, tiempo_taxi, tiempo_tp]
+// Niveles: 1=bajo(×0.8), 2=medio(×1.0), 3=alto(×1.2)
+const DISENO = [
+  [3, 1, 3, 2, 1],
+  [3, 2, 1, 1, 2],
+  [3, 3, 2, 1, 3],
+  [2, 1, 3, 1, 1],
+  [2, 3, 2, 2, 2],
+  [2, 2, 3, 3, 3],
+  [1, 3, 1, 2, 1],
+  [1, 1, 2, 3, 2],
+  [1, 2, 1, 3, 3]
+];
+
+const FACTOR_TAXI = 44 / 51;
+const FACTOR_TP   = 80 / 51;
+const COSTOS_TAXI = [20000, 30000, 40000];
+const COSTO_TP    = 3550;
+
+// Precios fijos para no usuarios
+const PRECIOS_NO_USUARIO = [50000, 67000, 100000];
+
+let esUsuario = false;
+let tiempo_real = 0;
+let precio_real = 0;
+let respuestas = {};
+
+// ===================== ESCALAS LIKERT =====================
+function crearEscalas() {
+  ['P6','P7','P8','P9','P10'].forEach(p => {
+    const div = document.getElementById('escala-' + p);
+    if (!div) return;
+    for (let i = 1; i <= 5; i++) {
+      const lbl = document.createElement('label');
+      lbl.innerHTML = `<input type="radio" name="${p}" value="${i}"> <span>${i}</span>`;
+      div.appendChild(lbl);
+    }
+  });
+}
+
+// ===================== PROGRESO =====================
+function actualizarProgreso(pct) {
+  document.getElementById('barra').style.width = pct + '%';
+}
+
+// ===================== NAVEGACIÓN =====================
+function mostrarSeccion(id, pct) {
+  document.querySelectorAll('.seccion').forEach(s => s.classList.remove('activa'));
+  document.getElementById(id).classList.add('activa');
+  actualizarProgreso(pct);
+  window.scrollTo(0, 0);
+}
+
+// ===================== MOSTRAR P5 =====================
+function mostrarP5() {
+  const val = document.querySelector('input[name="P4"]:checked')?.value;
+  document.getElementById('div-P5a').classList.toggle('oculto', val !== 'Si');
+  document.getElementById('div-P5b').classList.toggle('oculto', val !== 'No');
+}
+
+// ===================== VALIDACIONES =====================
+function getRadio(name) {
+  return document.querySelector(`input[name="${name}"]:checked`)?.value;
+}
+
+function validarSec1() {
+  let ok = true;
+  ['P1','P2','P3'].forEach(p => {
+    const v = getRadio(p);
+    document.getElementById('alerta-' + p).style.display = v ? 'none' : 'block';
+    if (!v) ok = false;
+  });
+  if (!ok) return;
+
+  if (getRadio('P1') === 'No' || getRadio('P2') === 'No' || getRadio('P3') === 'No') {
+    mostrarSeccion('sec-filtro', 100);
+    return;
+  }
+  mostrarSeccion('sec2', 15);
+}
+
+function validarSec2() {
+  const p4 = getRadio('P4');
+  if (!p4) {
+    document.getElementById('alerta-P4').style.display = 'block';
+    return;
+  }
+  document.getElementById('alerta-P4').style.display = 'none';
+  esUsuario = (p4 === 'Si');
+  mostrarSeccion('sec3', 30);
+}
+
+function validarSec3() {
+  let ok = true;
+  ['P6','P7','P8','P9','P10'].forEach(p => {
+    const v = getRadio(p);
+    document.getElementById('alerta-' + p).style.display = v ? 'none' : 'block';
+    if (!v) ok = false;
+  });
+  if (!ok) return;
+  mostrarSeccion('sec4', 45);
+}
+
+function validarSec4() {
+  let ok = true;
+  ['P11','P12','P13','P14','P15','P16'].forEach(p => {
+    const v = getRadio(p);
+    document.getElementById('alerta-' + p).style.display = v ? 'none' : 'block';
+    if (!v) ok = false;
+  });
+  if (!ok) return;
+
+  // Mostrar P24 si es usuario
+  document.getElementById('div-P24').style.display = esUsuario ? 'block' : 'none';
+  mostrarSeccion('sec5', 60);
+}
+
+function validarSec5() {
+  let ok = true;
+  ['P18','P19','P20'].forEach(p => {
+    const v = getRadio(p);
+    document.getElementById('alerta-' + p).style.display = v ? 'none' : 'block';
+    if (!v) ok = false;
+  });
+
+  if (!document.getElementById('P21').value) {
+    document.getElementById('alerta-P21').style.display = 'block';
+    ok = false;
+  } else document.getElementById('alerta-P21').style.display = 'none';
+
+  if (!document.getElementById('P22').value) {
+    document.getElementById('alerta-P22').style.display = 'block';
+    ok = false;
+  } else document.getElementById('alerta-P22').style.display = 'none';
+
+  const t = parseFloat(document.getElementById('P23').value);
+  if (!t || t <= 0) {
+    document.getElementById('alerta-P23').style.display = 'block';
+    ok = false;
+  } else document.getElementById('alerta-P23').style.display = 'none';
+
+  if (esUsuario) {
+    const p = parseFloat(document.getElementById('P24').value);
+    if (!p || p <= 0) {
+      document.getElementById('alerta-P24').style.display = 'block';
+      ok = false;
+    } else document.getElementById('alerta-P24').style.display = 'none';
+  }
+
+  if (!ok) return;
+
+  tiempo_real = t;
+  precio_real = esUsuario ? parseFloat(document.getElementById('P24').value) : 0;
+
+  generarEscenarios();
+  mostrarSeccion('sec6', 75);
+}
+
+// ===================== GENERAR ESCENARIOS =====================
+function calcularValor(nivel, base, factor) {
+  const mult = nivel === 1 ? 0.8 : nivel === 2 ? 1.0 : 1.2;
+  return Math.round(base * factor * mult);
+}
+
+function formatCOP(n) {
+  return '$' + n.toLocaleString('es-CO');
+}
+
+function generarEscenarios() {
+  const cont = document.getElementById('contenedor-escenarios');
+  cont.innerHTML = '';
+
+  DISENO.forEach((row, i) => {
+    const [nPrecio, nTPyps, nCTaxi, nTTaxi, nTTP] = row;
+
+    const precio_pyps = esUsuario
+      ? Math.round(precio_real * (nPrecio === 1 ? 0.8 : nPrecio === 2 ? 1.0 : 1.2))
+      : PRECIOS_NO_USUARIO[nPrecio - 1];
+
+    const t_pyps  = calcularValor(nTPyps, tiempo_real, 1.0);
+    const c_taxi  = COSTOS_TAXI[nCTaxi - 1];
+    const t_taxi  = calcularValor(nTTaxi, tiempo_real, FACTOR_TAXI);
+    const t_tp    = calcularValor(nTTP,   tiempo_real, FACTOR_TP);
+
+    cont.innerHTML += `
+      <div style="margin-bottom:30px; padding:15px; border:1px solid #ddd; border-radius:8px;">
+        <p style="font-weight:bold; margin-bottom:10px; color:#003366">Escenario ${i+1} de 9</p>
+        <div class="tarjeta-escenario">
+          <div class="celda etiqueta"></div>
+          <div class="celda header">A1 – Pagar PyPS</div>
+          <div class="celda header">A2 – Taxi / Uber</div>
+          <div class="celda header">A3 – TransMilenio / SITP</div>
+          <div class="celda etiqueta">Costo</div>
+          <div class="celda">${formatCOP(precio_pyps)}</div>
+          <div class="celda">${formatCOP(c_taxi)}</div>
+          <div class="celda">${formatCOP(COSTO_TP)}</div>
+          <div class="celda etiqueta">Tiempo</div>
+          <div class="celda">${t_pyps} min</div>
+          <div class="celda">${t_taxi} min</div>
+          <div class="celda">${t_tp} min</div>
+        </div>
+        <div class="opciones-escenario">
+          <label><input type="radio" name="E${i+1}" value="PyPS"> <span>Pagaría PyPS y viajaría en mi carro</span></label>
+          <label><input type="radio" name="E${i+1}" value="Taxi"> <span>Viajaría en Taxi / Uber</span></label>
+          <label><input type="radio" name="E${i+1}" value="TP"> <span>Viajaría en TransMilenio / SITP</span></label>
+        </div>
+        <span class="alerta" id="alerta-E${i+1}">Por favor seleccione una opción</span>
+      </div>`;
+  });
+}
+
+// ===================== VALIDAR Y ENVIAR =====================
+function validarSec6() {
+  let ok = true;
+  for (let i = 1; i <= 9; i++) {
+    const v = getRadio('E' + i);
+    document.getElementById('alerta-E' + i).style.display = v ? 'none' : 'block';
+    if (!v) ok = false;
+  }
+  if (!ok) return;
+  enviarDatos();
+}
+
+function enviarDatos() {
+  // Recolectar checkboxes P17
+  const p17 = Array.from(document.querySelectorAll('input[name="P17"]:checked')).map(e => e.value).join(', ') || 'Ninguno';
+
+  const datos = {
+    id_encuesta: Date.now(),
+    P1: getRadio('P1'), P2: getRadio('P2'), P3: getRadio('P3'),
+    P4: getRadio('P4'),
+    P5a: getRadio('P5a') || '',
+    P5b: getRadio('P5b') || '',
+    P6: getRadio('P6'), P7: getRadio('P7'), P8: getRadio('P8'),
+    P9: getRadio('P9'), P10: getRadio('P10'),
+    P11: getRadio('P11'), P12: getRadio('P12'), P13: getRadio('P13'),
+    P14: getRadio('P14'), P15: getRadio('P15'), P16: getRadio('P16'),
+    P17: p17,
+    P18: getRadio('P18'), P19: getRadio('P19'), P20: getRadio('P20'),
+    P21: document.getElementById('P21').value,
+    P22: document.getElementById('P22').value,
+    P23: document.getElementById('P23').value,
+    P24: esUsuario ? document.getElementById('P24').value : '',
+    E1: getRadio('E1'), E2: getRadio('E2'), E3: getRadio('E3'),
+    E4: getRadio('E4'), E5: getRadio('E5'), E6: getRadio('E6'),
+    E7: getRadio('E7'), E8: getRadio('E8'), E9: getRadio('E9')
+  };
+
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify(datos)
+  }).then(() => {
+    mostrarSeccion('sec-fin', 100);
+    setTimeout(() => {
+      if (NETQUEST_REDIRECT !== "PEGAR_URL_NETQUEST_AQUI") {
+        window.location.href = NETQUEST_REDIRECT;
+      }
+    }, 3000);
+  }).catch(() => {
+    mostrarSeccion('sec-fin', 100);
+  });
+}
+
+// ===================== INICIALIZAR =====================
+crearEscalas();
+</script>
+</body>
+</html>
