@@ -17,12 +17,7 @@
   input[type="number"], input[type="text"] { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em; margin-top: 5px; }
   input:disabled { background: #f0f0f0; cursor: not-allowed; }
   .escala { display: flex; gap: 4px; margin-top: 10px; flex-wrap: wrap; }
-  .escala label {
-    display: flex; flex-direction: column; align-items: center;
-    gap: 4px; padding: 6px 4px; border: 1px solid #ccc;
-    border-radius: 6px; cursor: pointer; font-size: 0.72em;
-    text-align: center; flex: 1; min-width: 80px; line-height: 1.3;
-  }
+  .escala label { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 4px; border: 1px solid #ccc; border-radius: 6px; cursor: pointer; font-size: 0.72em; text-align: center; flex: 1; min-width: 80px; line-height: 1.3; }
   .escala label:hover { border-color: #F5A800; background: #fffbf0; }
   .escala label input { margin: 0; }
   .btn { background: #F5A800; color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 1em; cursor: pointer; margin-top: 15px; width: 100%; }
@@ -59,7 +54,7 @@
 
   <div class="progreso"><div class="progreso-barra" id="barra" style="width:0%"></div></div>
 
-  <!-- ===== SECCIÓN 1 ===== -->
+  <!-- SECCIÓN 1 -->
   <div class="seccion activa" id="sec1">
     <h1>Investigación: Pico y Placa Solidario</h1>
     <div id="banner-prueba" class="banner banner-prueba" style="display:none">
@@ -71,28 +66,24 @@
       El objetivo es analizar los factores que influyen en las decisiones de movilidad de conductores bogotanos ante el Pico y Placa. Su participación consiste en responder un cuestionario de aproximadamente <strong>10 minutos</strong>.<br><br>
       Su participación es voluntaria y sus respuestas serán tratadas de forma anónima y confidencial, usándose únicamente con fines académicos.
     </p>
-
     <div class="pregunta">
       <p>P1: ¿Acepta participar en esta investigación?</p>
       <label class="opcion"><input type="radio" name="P1" value="Si"> Sí, acepto participar</label>
       <label class="opcion"><input type="radio" name="P1" value="No"> No acepto</label>
       <span class="alerta" id="alerta-P1">Por favor seleccione una opción</span>
     </div>
-
     <div class="pregunta">
       <p>P2: ¿Es usted conductor habitual de un vehículo particular que circule en Bogotá?</p>
       <label class="opcion"><input type="radio" name="P2" value="Si"> Sí</label>
       <label class="opcion"><input type="radio" name="P2" value="No"> No</label>
       <span class="alerta" id="alerta-P2">Por favor seleccione una opción</span>
     </div>
-
     <div class="pregunta">
       <p>P3: ¿Su vehículo tiene restricción de Pico y Placa en Bogotá?</p>
       <label class="opcion"><input type="radio" name="P3" value="Si"> Sí</label>
       <label class="opcion"><input type="radio" name="P3" value="No"> No</label>
       <span class="alerta" id="alerta-P3">Por favor seleccione una opción</span>
     </div>
-
     <div class="pregunta">
       <p>P4: ¿Ha adquirido alguna vez un permiso diario del Pico y Placa Solidario (PyPS)?</p>
       <label class="opcion"><input type="radio" name="P4" value="Diario"> Sí</label>
@@ -101,18 +92,16 @@
       <label class="opcion"><input type="radio" name="P4" value="No"> No he comprado ningún permiso</label>
       <span class="alerta" id="alerta-P4">Por favor seleccione una opción</span>
     </div>
-
     <div class="pregunta">
       <p>P5: ¿Es conductor de alguna plataforma? Por ejemplo: Uber, Didi, Yango, Cabify, etc.</p>
       <label class="opcion"><input type="radio" name="P5" value="Si"> Sí</label>
       <label class="opcion"><input type="radio" name="P5" value="No"> No</label>
       <span class="alerta" id="alerta-P5">Por favor seleccione una opción</span>
     </div>
-
     <button class="btn" onclick="validarSec1()">Continuar →</button>
   </div>
 
-  <!-- PANTALLA FILTRO -->
+  <!-- FILTRO -->
   <div class="seccion" id="sec-filtro">
     <div class="fin-mensaje">
       <h2>Gracias por su interés</h2>
@@ -120,10 +109,9 @@
     </div>
   </div>
 
-  <!-- ===== SECCIÓN 2 ===== -->
+  <!-- SECCIÓN 2 -->
   <div class="seccion" id="sec2">
     <h2>Sección 2: Experiencia con el Pico y Placa Solidario (PyPS)</h2>
-
     <div id="div-usuarios">
       <div class="pregunta">
         <p>P6: ¿Ha adquirido un permiso PyPS diario en los últimos 12 meses?</p>
@@ -148,7 +136,6 @@
         </div>
       </div>
     </div>
-
     <div id="div-no-usuarios" class="oculto">
       <div class="pregunta">
         <p>P8b: ¿Cuál es la principal razón por la que no ha usado el PyPS diario?</p>
@@ -161,16 +148,14 @@
         <span class="alerta" id="alerta-P8b">Por favor seleccione una opción</span>
       </div>
     </div>
-
     <button class="btn" onclick="validarSec2()">Continuar →</button>
     <button class="btn-atras" onclick="mostrarSeccion('sec1', 0)">← Atrás</button>
   </div>
 
-  <!-- ===== SECCIÓN 3 ===== -->
+  <!-- SECCIÓN 3 -->
   <div class="seccion" id="sec3">
     <h2>Sección 3: Aceptación del programa Pico y Placa Solidario (PyPS)</h2>
     <p style="margin-bottom:15px"><em>Seleccione su nivel de acuerdo con cada afirmación:</em></p>
-
     <div class="pregunta">
       <p>P9: El PyPS es una medida justa porque permite circular a quienes más lo necesitan, independientemente de su ingreso.</p>
       <div class="escala" id="escala-P9"></div>
@@ -198,15 +183,13 @@
       <div class="escala" id="escala-P13"></div>
       <span class="alerta" id="alerta-P13">Por favor seleccione una opción</span>
     </div>
-
     <button class="btn" onclick="validarSec3()">Continuar →</button>
     <button class="btn-atras" onclick="mostrarSeccion('sec2', 15)">← Atrás</button>
   </div>
 
-  <!-- ===== SECCIÓN 4 ===== -->
+  <!-- SECCIÓN 4 -->
   <div class="seccion" id="sec4">
     <h2>Sección 4: Perfil socioeconómico</h2>
-
     <div class="pregunta">
       <p>P14: ¿En qué municipio está matriculado su vehículo?</p>
       <label class="opcion"><input type="radio" name="P14" value="Bogotá D.C." onclick="manejarP14(this)"> Bogotá D.C.</label>
@@ -218,7 +201,6 @@
       </label>
       <span class="alerta" id="alerta-P14">Por favor seleccione una opción</span>
     </div>
-
     <div class="pregunta">
       <p>P15: ¿Con qué identidad de género se identifica?</p>
       <label class="opcion"><input type="radio" name="P15" value="Mujer"> Mujer</label>
@@ -227,7 +209,6 @@
       <label class="opcion"><input type="radio" name="P15" value="Otro"> Otro</label>
       <span class="alerta" id="alerta-P15">Por favor seleccione una opción</span>
     </div>
-
     <div class="pregunta">
       <p>P16: ¿En qué estrato socioeconómico aparece su vivienda en el recibo del agua?</p>
       <label class="opcion"><input type="radio" name="P16" value="1"> 1</label>
@@ -239,7 +220,6 @@
       <label class="opcion"><input type="radio" name="P16" value="NS/NR"> No sabe / No responde</label>
       <span class="alerta" id="alerta-P16">Por favor seleccione una opción</span>
     </div>
-
     <div class="pregunta">
       <p>P17: ¿Cuál es el ingreso mensual aproximado de su hogar?</p>
       <label class="opcion"><input type="radio" name="P17" value="Menos de $2M"> Menos de $2.000.000</label>
@@ -250,7 +230,6 @@
       <label class="opcion"><input type="radio" name="P17" value="NS/NR"> No sabe / No responde</label>
       <span class="alerta" id="alerta-P17">Por favor seleccione una opción</span>
     </div>
-
     <div class="pregunta">
       <p>P18: ¿Cuál es su nivel educativo más alto alcanzado?</p>
       <label class="opcion"><input type="radio" name="P18" value="Bachillerato o menos"> Bachillerato o menos</label>
@@ -259,7 +238,6 @@
       <label class="opcion"><input type="radio" name="P18" value="Posgrado"> Posgrado</label>
       <span class="alerta" id="alerta-P18">Por favor seleccione una opción</span>
     </div>
-
     <div class="pregunta">
       <p>P19: ¿Cuál de las siguientes alternativas representa mejor la actividad en la que usted ocupa la mayor parte de su tiempo?</p>
       <label class="opcion"><input type="radio" name="P19" value="Estudia"> Estudia</label>
@@ -270,22 +248,19 @@
       <label class="opcion"><input type="radio" name="P19" value="NS/NR"> No sabe / No responde</label>
       <span class="alerta" id="alerta-P19">Por favor seleccione una opción</span>
     </div>
-
     <div class="pregunta">
       <p>P20: ¿Tiene hijos o niños menores de 15 años a su cargo?</p>
       <label class="opcion"><input type="radio" name="P20" value="Si"> Sí</label>
       <label class="opcion"><input type="radio" name="P20" value="No"> No</label>
       <span class="alerta" id="alerta-P20">Por favor seleccione una opción</span>
     </div>
-
     <button class="btn" onclick="validarSec4()">Continuar →</button>
     <button class="btn-atras" onclick="mostrarSeccion('sec3', 30)">← Atrás</button>
   </div>
 
-  <!-- ===== SECCIÓN 5 ===== -->
+  <!-- SECCIÓN 5 -->
   <div class="seccion" id="sec5">
     <h2>Sección 5: Patrones de movilidad</h2>
-
     <div class="pregunta">
       <p>P21: ¿Cuál(es) de los siguientes vehículos tiene a su disposición para viajar el día de restricción Pico y Placa? Seleccione todos los que apliquen.</p>
       <label class="opcion"><input type="checkbox" name="P21" value="Carro adicional" onchange="manejarNinguno(this)"> Carro adicional</label>
@@ -294,7 +269,6 @@
       <label class="opcion"><input type="checkbox" name="P21" value="Patineta" onchange="manejarNinguno(this)"> Patineta</label>
       <label class="opcion"><input type="checkbox" name="P21" value="Ninguno" id="P21-ninguno" onchange="manejarNinguno(this)"> Ninguno</label>
     </div>
-
     <div class="pregunta">
       <p>P22: ¿Con qué frecuencia usa su vehículo particular en Bogotá?</p>
       <label class="opcion"><input type="radio" name="P22" value="Menos de 1 vez"> Menos de 1 vez a la semana</label>
@@ -303,7 +277,6 @@
       <label class="opcion"><input type="radio" name="P22" value="6-7 días"> 6 a 7 días a la semana</label>
       <span class="alerta" id="alerta-P22">Por favor seleccione una opción</span>
     </div>
-
     <div class="pregunta">
       <p>P23: En el último día que usó su vehículo, ¿cuántos trayectos realizó?</p>
       <p class="nota">Por ejemplo: de casa al trabajo, del trabajo al colegio, del colegio al mercado y del mercado a casa = 4 trayectos</p>
@@ -313,7 +286,6 @@
       <label class="opcion"><input type="radio" name="P23" value="5+"> 5 o más trayectos</label>
       <span class="alerta" id="alerta-P23">Por favor seleccione una opción</span>
     </div>
-
     <div class="pregunta">
       <p>P24: En el último día que usó su vehículo, ¿realizó algún trayecto para acompañar o transportar a otra persona?</p>
       <p class="nota">Por ejemplo: llevar a un hijo al colegio, acompañar a un familiar al médico, recoger a alguien</p>
@@ -321,7 +293,6 @@
       <label class="opcion"><input type="radio" name="P24" value="No"> No</label>
       <span class="alerta" id="alerta-P24">Por favor seleccione una opción</span>
     </div>
-
     <div class="pregunta">
       <p>P25: En el último día que usó su vehículo, ¿cuál fue el motivo principal de sus trayectos?</p>
       <label class="opcion"><input type="radio" name="P25" value="Trabajo" onclick="manejarP25(this)"> Trabajo</label>
@@ -333,25 +304,22 @@
       </label>
       <span class="alerta" id="alerta-P25">Por favor seleccione una opción</span>
     </div>
-
     <div class="pregunta">
       <p>P26: ¿Cuánto tiempo tardó aproximadamente su último viaje en vehículo particular?</p>
       <input type="number" id="P26" placeholder="Ingrese el tiempo en minutos">
       <span class="alerta" id="alerta-P26">Por favor ingrese un tiempo válido (entre 5 y 300 minutos)</span>
     </div>
-
     <div class="pregunta" id="div-P27" style="display:none">
       <p>P27: ¿Cuánto pagó la última vez que adquirió un permiso del Pico y Placa Solidario (PyPS)?</p>
       <input type="number" id="P27" placeholder="Ingrese el valor en pesos COP" oninput="mostrarFormatoCOP()">
       <div class="formato-cop" id="formato-P27" style="display:none"></div>
       <span class="alerta" id="alerta-P27">Por favor ingrese un valor válido (entre $60.000 y $190.000)</span>
     </div>
-
     <button class="btn" onclick="validarSec5()">Continuar →</button>
     <button class="btn-atras" onclick="mostrarSeccion('sec4', 45)">← Atrás</button>
   </div>
 
-  <!-- ===== SECCIÓN 6A ===== -->
+  <!-- SECCIÓN 6A -->
   <div class="seccion" id="sec6a">
     <h2>Sección 6: Experimento de elección</h2>
     <p style="margin-bottom:15px; line-height:1.7; background:#f9f9f9; padding:12px; border-radius:8px; border-left:4px solid #F5A800">
@@ -362,7 +330,7 @@
     <button class="btn-atras" onclick="mostrarSeccion('sec5', 60)">← Atrás</button>
   </div>
 
-  <!-- ===== SECCIÓN 6B ===== -->
+  <!-- SECCIÓN 6B -->
   <div class="seccion" id="sec6b">
     <h2>Sección 6: Experimento de elección</h2>
     <p style="margin-bottom:15px; line-height:1.7; background:#f9f9f9; padding:12px; border-radius:8px; border-left:4px solid #F5A800">
@@ -373,7 +341,7 @@
     <button class="btn-atras" onclick="mostrarSeccion('sec6a', 75)">← Atrás</button>
   </div>
 
-  <!-- ===== SECCIÓN 6C ===== -->
+  <!-- SECCIÓN 6C -->
   <div class="seccion" id="sec6c">
     <h2>Sección 6: Experimento de elección</h2>
     <p style="margin-bottom:15px; line-height:1.7; background:#f9f9f9; padding:12px; border-radius:8px; border-left:4px solid #F5A800">
@@ -393,7 +361,6 @@
   </div>
 
 </div>
-
 <script>
 const MODO_PRUEBA = true;
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdE7n67JnyPz8bWHVVvSwINw2gutvFmy-imzmk06ii1otA_ngrt19OLa_LDNyLpKGa/exec";
@@ -409,204 +376,251 @@ const DISENO = [
   [1,3,1,2,1],[1,1,2,3,2],[1,2,1,3,3]
 ];
 
-const FACTOR_TAXI=44/51, FACTOR_TP=80/51, COSTO_TP=3550;
-const BANDERAZO=4500, TARIFA_POR_KM=1590, VELOCIDAD_TAXI=23;
-const PRECIOS_NO_USUARIO=[42200,56200,70300];
+const FACTOR_TAXI = 44/51, FACTOR_TP = 80/51, COSTO_TP = 3550;
+const BANDERAZO = 4500, TARIFA_POR_KM = 1590, VELOCIDAD_TAXI = 23;
+const PRECIOS_NO_USUARIO = [42200, 56200, 70300];
 
-const ETIQUETAS_LIKERT=[
-  "Totalmente en\ndesacuerdo",
-  "En\ndesacuerdo",
-  "Ni de acuerdo\nni en desacuerdo",
-  "De\nacuerdo",
-  "Totalmente\nde acuerdo"
+const ETIQUETAS_LIKERT = [
+  "Totalmente en<br>desacuerdo",
+  "En<br>desacuerdo",
+  "Ni de acuerdo<br>ni en desacuerdo",
+  "De<br>acuerdo",
+  "Totalmente<br>de acuerdo"
 ];
 
-let esUsuario=false, tiempo_real=0, precio_real=0;
-let datosFiltroParcial={};
+let esUsuario = false, tiempo_real = 0, precio_real = 0;
+let datosFiltroParcial = {};
 
-function init(){
+function generarIdEncuesta() {
+  const ahora = new Date();
+  const yyyy = ahora.getFullYear();
+  const mm = String(ahora.getMonth()+1).padStart(2,'0');
+  const dd = String(ahora.getDate()).padStart(2,'0');
+  const hh = String(ahora.getHours()).padStart(2,'0');
+  const min = String(ahora.getMinutes()).padStart(2,'0');
+  const ss = String(ahora.getSeconds()).padStart(2,'0');
+  return `ENC-${yyyy}${mm}${dd}-${hh}${min}${ss}`;
+}
+
+function init() {
   crearEscalas();
-  if(MODO_PRUEBA) document.getElementById('banner-prueba').style.display='block';
+  if (MODO_PRUEBA) document.getElementById('banner-prueba').style.display = 'block';
 }
 
-function calcularCostoTaxiRef(t){
-  return Math.round(BANDERAZO+(t*FACTOR_TAXI/60)*VELOCIDAD_TAXI*TARIFA_POR_KM);
+function calcularCostoTaxiRef(t) {
+  return Math.round(BANDERAZO + (t * FACTOR_TAXI / 60) * VELOCIDAD_TAXI * TARIFA_POR_KM);
 }
 
-function crearEscalas(){
-  ['P9','P10','P11','P12','P13'].forEach(p=>{
-    const div=document.getElementById('escala-'+p);
-    if(!div) return;
-    ETIQUETAS_LIKERT.forEach((et,i)=>{
-      const lbl=document.createElement('label');
-      lbl.innerHTML=`<input type="radio" name="${p}" value="${i+1}"> ${et.replace(/\n/g,'<br>')}`;
+function crearEscalas() {
+  ['P9','P10','P11','P12','P13'].forEach(p => {
+    const div = document.getElementById('escala-' + p);
+    if (!div) return;
+    ETIQUETAS_LIKERT.forEach((et, i) => {
+      const lbl = document.createElement('label');
+      lbl.innerHTML = `<input type="radio" name="${p}" value="${i+1}"> ${et}`;
       div.appendChild(lbl);
     });
   });
 }
 
-function actualizarProgreso(pct){document.getElementById('barra').style.width=pct+'%';}
+function actualizarProgreso(pct) {
+  document.getElementById('barra').style.width = pct + '%';
+}
 
-function mostrarSeccion(id,pct){
-  document.querySelectorAll('.seccion').forEach(s=>s.classList.remove('activa'));
+function mostrarSeccion(id, pct) {
+  document.querySelectorAll('.seccion').forEach(s => s.classList.remove('activa'));
   document.getElementById(id).classList.add('activa');
   actualizarProgreso(pct);
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
 
-function redirigir(url){if(!MODO_PRUEBA) window.location.href=url+OWID;}
-
-function getRadio(name){return document.querySelector(`input[name="${name}"]:checked`)?.value;}
-
-function mostrarAlerta(id,mostrar){
-  const el=document.getElementById('alerta-'+id);
-  if(el) el.style.display=mostrar?'block':'none';
+function redirigir(url) {
+  if (!MODO_PRUEBA) window.location.href = url + OWID;
 }
 
-function mostrarP7(){
-  const v=getRadio('P6');
-  document.getElementById('div-P7').classList.toggle('oculto',v!=='Si');
+function getRadio(name) {
+  return document.querySelector(`input[name="${name}"]:checked`)?.value;
 }
 
-// P14 — activar campo de texto según selección
-function manejarP14(radio){
-  document.getElementById('P14-cund').disabled=true;
-  document.getElementById('P14-otro').disabled=true;
-  document.getElementById('P14-cund').value='';
-  document.getElementById('P14-otro').value='';
-  if(radio.value==='Cundinamarca') document.getElementById('P14-cund').disabled=false;
-  if(radio.value==='Otro') document.getElementById('P14-otro').disabled=false;
+function mostrarAlerta(id, mostrar) {
+  const el = document.getElementById('alerta-' + id);
+  if (el) el.style.display = mostrar ? 'block' : 'none';
 }
 
-// P25 — activar campo de texto solo si "Otro"
-function manejarP25(radio){
-  const campo=document.getElementById('P25-otro');
-  campo.disabled=(radio.value!=='Otro');
-  if(radio.value!=='Otro') campo.value='';
+function mostrarP7() {
+  const v = getRadio('P6');
+  document.getElementById('div-P7').classList.toggle('oculto', v !== 'Si');
 }
 
-// P21 — manejar conflicto Ninguno
-function manejarNinguno(checkbox){
-  const checkboxes=document.querySelectorAll('input[name="P21"]');
-  if(checkbox.value==='Ninguno' && checkbox.checked){
-    checkboxes.forEach(c=>{ if(c.value!=='Ninguno') c.checked=false; });
-  } else if(checkbox.value!=='Ninguno' && checkbox.checked){
-    document.getElementById('P21-ninguno').checked=false;
+function manejarP14(radio) {
+  document.getElementById('P14-cund').disabled = true;
+  document.getElementById('P14-otro').disabled = true;
+  document.getElementById('P14-cund').value = '';
+  document.getElementById('P14-otro').value = '';
+  if (radio.value === 'Cundinamarca') document.getElementById('P14-cund').disabled = false;
+  if (radio.value === 'Otro') document.getElementById('P14-otro').disabled = false;
+}
+
+function manejarP25(radio) {
+  const campo = document.getElementById('P25-otro');
+  campo.disabled = (radio.value !== 'Otro');
+  if (radio.value !== 'Otro') campo.value = '';
+}
+
+function manejarNinguno(checkbox) {
+  const todos = document.querySelectorAll('input[name="P21"]');
+  if (checkbox.value === 'Ninguno' && checkbox.checked) {
+    todos.forEach(c => { if (c.value !== 'Ninguno') c.checked = false; });
+  } else if (checkbox.value !== 'Ninguno' && checkbox.checked) {
+    document.getElementById('P21-ninguno').checked = false;
   }
 }
 
-// P27 — formato COP
-function mostrarFormatoCOP(){
-  const val=parseFloat(document.getElementById('P27').value);
-  const div=document.getElementById('formato-P27');
-  if(val && val>0){
-    div.style.display='block';
-    div.textContent='Valor: $'+Math.round(val).toLocaleString('es-CO');
+function mostrarFormatoCOP() {
+  const val = parseFloat(document.getElementById('P27').value);
+  const div = document.getElementById('formato-P27');
+  if (val && val > 0) {
+    div.style.display = 'block';
+    div.textContent = 'Valor: $' + Math.round(val).toLocaleString('es-CO');
   } else {
-    div.style.display='none';
+    div.style.display = 'none';
   }
 }
 
-function guardarFiltrado(razon){
-  const datos=Object.assign({},datosFiltroParcial,{
-    id_encuesta:Date.now(),owid:OWID,filtrado_en:razon,completo:'No'
+function guardarFiltrado(razon) {
+  const datos = Object.assign({}, datosFiltroParcial, {
+    id_encuesta: generarIdEncuesta(),
+    owid: OWID,
+    filtrado_en: razon,
+    completo: 'No'
   });
-  fetch(GOOGLE_SCRIPT_URL,{method:'POST',body:JSON.stringify(datos)}).catch(()=>{});
+  fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(datos) }).catch(() => {});
 }
 
-function validarSec1(){
-  let ok=true;
-  ['P1','P2','P3','P4','P5'].forEach(p=>{
-    const v=getRadio(p); mostrarAlerta(p,!v); if(!v) ok=false;
+function validarSec1() {
+  let ok = true;
+  ['P1','P2','P3','P4','P5'].forEach(p => {
+    const v = getRadio(p);
+    mostrarAlerta(p, !v);
+    if (!v) ok = false;
   });
-  if(!ok) return;
+  if (!ok) return;
 
-  datosFiltroParcial={P1:getRadio('P1'),P2:getRadio('P2'),P3:getRadio('P3'),P4:getRadio('P4'),P5:getRadio('P5')};
+  datosFiltroParcial = {
+    P1: getRadio('P1'), P2: getRadio('P2'),
+    P3: getRadio('P3'), P4: getRadio('P4'), P5: getRadio('P5')
+  };
 
-  if(getRadio('P1')==='No'||getRadio('P2')==='No'||getRadio('P3')==='No'){
-    guardarFiltrado('P1-P2-P3'); mostrarSeccion('sec-filtro',100); redirigir(REDIRECT_SCREENED); return;
+  if (getRadio('P1') === 'No' || getRadio('P2') === 'No' || getRadio('P3') === 'No') {
+    guardarFiltrado('P1-P2-P3');
+    mostrarSeccion('sec-filtro', 100);
+    redirigir(REDIRECT_SCREENED);
+    return;
   }
-  if(getRadio('P5')==='Si'){
-    guardarFiltrado('P5-plataforma'); mostrarSeccion('sec-filtro',100); redirigir(REDIRECT_SCREENED); return;
+  if (getRadio('P5') === 'Si') {
+    guardarFiltrado('P5-plataforma');
+    mostrarSeccion('sec-filtro', 100);
+    redirigir(REDIRECT_SCREENED);
+    return;
   }
-  const p4=getRadio('P4');
-  if(p4==='Mensual'||p4==='Semestral'){
-    guardarFiltrado('P4-mensual-semestral'); mostrarSeccion('sec-filtro',100); redirigir(REDIRECT_SCREENED); return;
+  const p4 = getRadio('P4');
+  if (p4 === 'Mensual' || p4 === 'Semestral') {
+    guardarFiltrado('P4-mensual-semestral');
+    mostrarSeccion('sec-filtro', 100);
+    redirigir(REDIRECT_SCREENED);
+    return;
   }
 
-  esUsuario=(p4==='Diario');
-  document.getElementById('div-usuarios').style.display=esUsuario?'block':'none';
-  document.getElementById('div-no-usuarios').style.display=esUsuario?'none':'block';
-  document.getElementById('div-P27').style.display=esUsuario?'block':'none';
-  mostrarSeccion('sec2',15);
+  esUsuario = (p4 === 'Diario');
+  document.getElementById('div-usuarios').style.display    = esUsuario ? 'block' : 'none';
+  document.getElementById('div-no-usuarios').style.display = esUsuario ? 'none'  : 'block';
+  document.getElementById('div-P27').style.display         = esUsuario ? 'block' : 'none';
+  mostrarSeccion('sec2', 15);
 }
 
-function validarSec2(){
-  let ok=true;
-  if(esUsuario){
-    const p6=getRadio('P6'); mostrarAlerta('P6',!p6); if(!p6) ok=false;
-    if(p6==='Si'){
-      const p7=document.getElementById('P7').value;
-      mostrarAlerta('P7',!p7||p7<=0); if(!p7||p7<=0) ok=false;
-      const p8a=getRadio('P8a'); mostrarAlerta('P8a',!p8a); if(!p8a) ok=false;
+function validarSec2() {
+  let ok = true;
+  if (esUsuario) {
+    const p6 = getRadio('P6');
+    mostrarAlerta('P6', !p6);
+    if (!p6) ok = false;
+    if (p6 === 'Si') {
+      const p7 = document.getElementById('P7').value;
+      mostrarAlerta('P7', !p7 || p7 <= 0);
+      if (!p7 || p7 <= 0) ok = false;
+      const p8a = getRadio('P8a');
+      mostrarAlerta('P8a', !p8a);
+      if (!p8a) ok = false;
     }
   } else {
-    const p8b=getRadio('P8b'); mostrarAlerta('P8b',!p8b); if(!p8b) ok=false;
+    const p8b = getRadio('P8b');
+    mostrarAlerta('P8b', !p8b);
+    if (!p8b) ok = false;
   }
-  if(!ok) return;
-  mostrarSeccion('sec3',30);
+  if (!ok) return;
+  mostrarSeccion('sec3', 30);
 }
 
-function validarSec3(){
-  let ok=true;
-  ['P9','P10','P11','P12','P13'].forEach(p=>{
-    const v=getRadio(p); mostrarAlerta(p,!v); if(!v) ok=false;
+function validarSec3() {
+  let ok = true;
+  ['P9','P10','P11','P12','P13'].forEach(p => {
+    const v = getRadio(p);
+    mostrarAlerta(p, !v);
+    if (!v) ok = false;
   });
-  if(!ok) return;
-  mostrarSeccion('sec4',45);
+  if (!ok) return;
+  mostrarSeccion('sec4', 45);
 }
 
-function validarSec4(){
-  let ok=true;
-  ['P14','P15','P16','P17','P18','P19','P20'].forEach(p=>{
-    const v=getRadio(p); mostrarAlerta(p,!v); if(!v) ok=false;
+function validarSec4() {
+  let ok = true;
+  ['P14','P15','P16','P17','P18','P19','P20'].forEach(p => {
+    const v = getRadio(p);
+    mostrarAlerta(p, !v);
+    if (!v) ok = false;
   });
-  if(!ok) return;
-  mostrarSeccion('sec5',60);
+  if (!ok) return;
+  mostrarSeccion('sec5', 60);
 }
 
-function validarSec5(){
-  let ok=true;
-  ['P22','P23','P24','P25'].forEach(p=>{
-    const v=getRadio(p); mostrarAlerta(p,!v); if(!v) ok=false;
+function validarSec5() {
+  let ok = true;
+  ['P22','P23','P24','P25'].forEach(p => {
+    const v = getRadio(p);
+    mostrarAlerta(p, !v);
+    if (!v) ok = false;
   });
 
-  const t=parseFloat(document.getElementById('P26').value);
-  const tOk=t>=5&&t<=300; mostrarAlerta('P26',!tOk); if(!tOk) ok=false;
+  const t = parseFloat(document.getElementById('P26').value);
+  const tOk = t >= 5 && t <= 300;
+  mostrarAlerta('P26', !tOk);
+  if (!tOk) ok = false;
 
-  if(esUsuario){
-    const p=parseFloat(document.getElementById('P27').value);
-    const pOk=p>=60000&&p<=190000; mostrarAlerta('P27',!pOk); if(!pOk) ok=false;
+  if (esUsuario) {
+    const p = parseFloat(document.getElementById('P27').value);
+    const pOk = p >= 60000 && p <= 190000;
+    mostrarAlerta('P27', !pOk);
+    if (!pOk) ok = false;
   }
 
-  if(!ok) return;
-  tiempo_real=t;
-  precio_real=esUsuario?parseFloat(document.getElementById('P27').value):0;
+  if (!ok) return;
+  tiempo_real = t;
+  precio_real = esUsuario ? parseFloat(document.getElementById('P27').value) : 0;
   generarEscenarios();
-  mostrarSeccion('sec6a',75);
+  mostrarSeccion('sec6a', 75);
 }
 
-function nivel(n){return n===1?0.8:n===2?1.0:1.2;}
-function formatCOP(n){return '$'+Math.round(n).toLocaleString('es-CO');}
+function nivel(n) { return n === 1 ? 0.8 : n === 2 ? 1.0 : 1.2; }
+function formatCOP(n) { return '$' + Math.round(n).toLocaleString('es-CO'); }
 
-function generarTarjeta(i){
-  const [nP,nT,nC,nTT,nTP]=DISENO[i];
-  const ctRef=calcularCostoTaxiRef(tiempo_real);
-  const precio_pyps=esUsuario?Math.round(precio_real*nivel(nP)):PRECIOS_NO_USUARIO[nP-1];
-  const t_pyps=Math.round(tiempo_real*nivel(nT));
-  const t_taxi=Math.round(tiempo_real*FACTOR_TAXI*nivel(nTT));
-  const t_tp=Math.round(tiempo_real*FACTOR_TP*nivel(nTP));
-  const c_taxi=Math.round(ctRef*nivel(nC));
+function generarTarjeta(i) {
+  const [nP, nT, nC, nTT, nTP] = DISENO[i];
+  const ctRef = calcularCostoTaxiRef(tiempo_real);
+  const precio_pyps = esUsuario ? Math.round(precio_real * nivel(nP)) : PRECIOS_NO_USUARIO[nP - 1];
+  const t_pyps = Math.round(tiempo_real * nivel(nT));
+  const t_taxi = Math.round(tiempo_real * FACTOR_TAXI * nivel(nTT));
+  const t_tp   = Math.round(tiempo_real * FACTOR_TP * nivel(nTP));
+  const c_taxi = Math.round(ctRef * nivel(nC));
 
   return `
     <div class="escenario-box">
@@ -632,69 +646,81 @@ function generarTarjeta(i){
     </div>`;
 }
 
-function generarEscenarios(){
-  document.getElementById('escenarios-1-3').innerHTML=[0,1,2].map(generarTarjeta).join('');
-  document.getElementById('escenarios-4-6').innerHTML=[3,4,5].map(generarTarjeta).join('');
-  document.getElementById('escenarios-7-9').innerHTML=[6,7,8].map(generarTarjeta).join('');
+function generarEscenarios() {
+  document.getElementById('escenarios-1-3').innerHTML = [0,1,2].map(generarTarjeta).join('');
+  document.getElementById('escenarios-4-6').innerHTML = [3,4,5].map(generarTarjeta).join('');
+  document.getElementById('escenarios-7-9').innerHTML = [6,7,8].map(generarTarjeta).join('');
 }
 
-function validarBloque(bloque){
-  const rangos={1:[1,2,3],2:[4,5,6],3:[7,8,9]};
-  const sigs={1:'sec6b',2:'sec6c'};
-  const pcts={1:83,2:91};
-  let ok=true;
-  rangos[bloque].forEach(i=>{
-    const v=getRadio('E'+i);
-    document.getElementById('alerta-E'+i).style.display=v?'none':'block';
-    if(!v) ok=false;
+function validarBloque(bloque) {
+  const rangos = { 1:[1,2,3], 2:[4,5,6], 3:[7,8,9] };
+  const sigs   = { 1:'sec6b', 2:'sec6c' };
+  const pcts   = { 1:83, 2:91 };
+  let ok = true;
+  rangos[bloque].forEach(i => {
+    const v = getRadio('E' + i);
+    document.getElementById('alerta-E' + i).style.display = v ? 'none' : 'block';
+    if (!v) ok = false;
   });
-  if(!ok) return;
-  if(bloque<3) mostrarSeccion(sigs[bloque],pcts[bloque]);
+  if (!ok) return;
+  if (bloque < 3) mostrarSeccion(sigs[bloque], pcts[bloque]);
   else enviarDatos();
 }
 
-function enviarDatos(){
-  const btn=document.getElementById('btn-enviar');
-  btn.disabled=true; btn.textContent='Enviando...';
+function enviarDatos() {
+  const btn = document.getElementById('btn-enviar');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
 
-  const p21=Array.from(document.querySelectorAll('input[name="P21"]:checked')).map(e=>e.value).join(', ')||'Ninguno';
+  const p21 = Array.from(document.querySelectorAll('input[name="P21"]:checked')).map(e => e.value).join(', ') || 'Ninguno';
 
-  const p14b=getRadio('P14');
-  let p14v=p14b||'';
-  if(p14b==='Cundinamarca') p14v='Cundinamarca: '+document.getElementById('P14-cund').value;
-  if(p14b==='Otro') p14v='Otro: '+document.getElementById('P14-otro').value;
+  const p14b = getRadio('P14');
+  let p14v = p14b || '';
+  if (p14b === 'Cundinamarca') p14v = 'Cundinamarca: ' + document.getElementById('P14-cund').value;
+  if (p14b === 'Otro')         p14v = 'Otro: '         + document.getElementById('P14-otro').value;
 
-  const p19b=getRadio('P19');
-  const p19v=p19b==='Otro'?'Otro: '+document.getElementById('P19-otro').value:p19b||'';
+  const p19b = getRadio('P19');
+  const p19v = p19b === 'Otro' ? 'Otro: ' + document.getElementById('P19-otro').value : p19b || '';
 
-  const p25b=getRadio('P25');
-  const p25v=p25b==='Otro'?'Otro: '+document.getElementById('P25-otro').value:p25b||'';
+  const p25b = getRadio('P25');
+  const p25v = p25b === 'Otro' ? 'Otro: ' + document.getElementById('P25-otro').value : p25b || '';
 
-  const p8bb=getRadio('P8b');
-  const p8bv=p8bb==='Otra'?'Otra: '+document.getElementById('P8b-otro').value:p8bb||'';
+  const p8bb = getRadio('P8b');
+  const p8bv = p8bb === 'Otra' ? 'Otra: ' + document.getElementById('P8b-otro').value : p8bb || '';
 
-  const datos={
-    id_encuesta:Date.now(),owid:OWID,completo:'Si',
-    P1:getRadio('P1'),P2:getRadio('P2'),P3:getRadio('P3'),P4:getRadio('P4'),P5:getRadio('P5'),
-    P6:esUsuario?(getRadio('P6')||')':'',
-    P7:esUsuario?(document.getElementById('P7').value||')':'',
-    P8a:esUsuario?(getRadio('P8a')||')':'',
-    P8b:esUsuario?'':p8bv,
-    P9:getRadio('P9'),P10:getRadio('P10'),P11:getRadio('P11'),P12:getRadio('P12'),P13:getRadio('P13'),
-    P14:p14v,P15:getRadio('P15'),P16:getRadio('P16'),P17:getRadio('P17'),
-    P18:getRadio('P18'),P19:p19v,P20:getRadio('P20'),
-    P21:p21,P22:getRadio('P22'),P23:getRadio('P23'),P24:getRadio('P24'),P25:p25v,
-    P26_tiempo_min:tiempo_real,
-    P27_precio_pyps:esUsuario?precio_real:'',
-    costo_taxi_ref:calcularCostoTaxiRef(tiempo_real),
-    E1:getRadio('E1'),E2:getRadio('E2'),E3:getRadio('E3'),
-    E4:getRadio('E4'),E5:getRadio('E5'),E6:getRadio('E6'),
-    E7:getRadio('E7'),E8:getRadio('E8'),E9:getRadio('E9')
+  const datos = {
+    id_encuesta: generarIdEncuesta(),
+    owid: OWID,
+    completo: 'Si',
+    P1: getRadio('P1'), P2: getRadio('P2'), P3: getRadio('P3'),
+    P4: getRadio('P4'), P5: getRadio('P5'),
+    P6:  esUsuario ? (getRadio('P6')  || '') : '',
+    P7:  esUsuario ? (document.getElementById('P7').value || '') : '',
+    P8a: esUsuario ? (getRadio('P8a') || '') : '',
+    P8b: esUsuario ? '' : p8bv,
+    P9: getRadio('P9'), P10: getRadio('P10'), P11: getRadio('P11'),
+    P12: getRadio('P12'), P13: getRadio('P13'),
+    P14: p14v, P15: getRadio('P15'), P16: getRadio('P16'),
+    P17: getRadio('P17'), P18: getRadio('P18'), P19: p19v, P20: getRadio('P20'),
+    P21: p21, P22: getRadio('P22'), P23: getRadio('P23'),
+    P24: getRadio('P24'), P25: p25v,
+    P26_tiempo_min:  tiempo_real,
+    P27_precio_pyps: esUsuario ? precio_real : '',
+    costo_taxi_ref:  calcularCostoTaxiRef(tiempo_real),
+    E1: getRadio('E1'), E2: getRadio('E2'), E3: getRadio('E3'),
+    E4: getRadio('E4'), E5: getRadio('E5'), E6: getRadio('E6'),
+    E7: getRadio('E7'), E8: getRadio('E8'), E9: getRadio('E9')
   };
 
-  fetch(GOOGLE_SCRIPT_URL,{method:'POST',body:JSON.stringify(datos)})
-    .then(()=>{mostrarSeccion('sec-fin',100);setTimeout(()=>redirigir(REDIRECT_COMPLETE),3000);})
-    .catch(()=>{mostrarSeccion('sec-fin',100);setTimeout(()=>redirigir(REDIRECT_COMPLETE),3000);});
+  fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(datos) })
+    .then(() => {
+      mostrarSeccion('sec-fin', 100);
+      setTimeout(() => redirigir(REDIRECT_COMPLETE), 3000);
+    })
+    .catch(() => {
+      mostrarSeccion('sec-fin', 100);
+      setTimeout(() => redirigir(REDIRECT_COMPLETE), 3000);
+    });
 }
 
 init();
