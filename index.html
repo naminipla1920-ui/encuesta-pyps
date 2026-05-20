@@ -15,32 +15,35 @@
   .opcion { display: block; margin: 5px 0; font-weight: normal; cursor: pointer; }
   .opcion input { margin-right: 8px; }
   input[type="number"], input[type="text"] { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em; margin-top: 5px; }
-  select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em; margin-top: 5px; }
-  .escala { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 8px; align-items: center; }
-  .escala label { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 0.85em; cursor: pointer; }
-  .btn { background: #F5A800; color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 1em; cursor: pointer; margin-top: 20px; width: 100%; }
+  .escala { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .escala label { display: flex; align-items: center; gap: 5px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px; cursor: pointer; font-size: 0.85em; white-space: nowrap; }
+  .escala label:hover { border-color: #F5A800; }
+  .btn { background: #F5A800; color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 1em; cursor: pointer; margin-top: 15px; width: 100%; }
   .btn:hover { background: #d4900a; }
   .btn:disabled { background: #ccc; cursor: not-allowed; }
+  .btn-atras { background: white; color: #003366; border: 2px solid #003366; padding: 10px 30px; border-radius: 8px; font-size: 1em; cursor: pointer; margin-top: 10px; width: 100%; }
+  .btn-atras:hover { background: #f0f0f0; }
   .oculto { display: none; }
   .seccion { display: none; }
   .seccion.activa { display: block; }
   .alerta { color: red; font-size: 0.85em; margin-top: 4px; display: none; }
   .progreso { background: #eee; border-radius: 10px; height: 8px; margin-bottom: 20px; }
   .progreso-barra { background: #F5A800; height: 8px; border-radius: 10px; transition: width 0.3s; }
-  .tarjeta-escenario { width: 100%; border-collapse: collapse; margin: 10px 0; border-radius: 8px; overflow: hidden; }
-  .tarjeta-escenario th { background: #003366; color: white; padding: 10px; text-align: center; font-size: 0.95em; }
-  .tarjeta-escenario th:first-child { background: #F5A800; }
+  .tarjeta-escenario { width: 100%; border-collapse: collapse; margin: 10px 0; }
+  .tarjeta-escenario th { background: #003366; color: white; padding: 10px; text-align: center; font-size: 0.9em; }
+  .tarjeta-escenario th:first-child { background: #F5A800; color: white; }
   .tarjeta-escenario td { padding: 10px; text-align: center; border: 1px solid #eee; font-size: 0.95em; }
   .tarjeta-escenario td:first-child { background: #f9f9f9; font-weight: bold; text-align: left; }
-  .opciones-escenario { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
-  .opciones-escenario label { display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 8px 12px; border: 2px solid #ccc; border-radius: 8px; font-size: 0.9em; }
+  .opciones-escenario { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  .opciones-escenario label { display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 8px 12px; border: 2px solid #ccc; border-radius: 8px; font-size: 0.88em; }
   .opciones-escenario label:hover { border-color: #F5A800; }
   .escenario-box { margin-bottom: 25px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
   .escenario-titulo { font-weight: bold; color: #003366; margin-bottom: 10px; }
   .fin-mensaje { text-align: center; padding: 30px; }
   .fin-mensaje h2 { color: #003366; font-size: 1.4em; margin-bottom: 15px; }
   .nota { font-size: 0.85em; color: #666; font-style: italic; margin-top: 5px; }
-  .modo-prueba-banner { background: #fff3cd; border: 1px solid #F5A800; padding: 8px 15px; border-radius: 5px; font-size: 0.85em; margin-bottom: 15px; text-align: center; }
+  .banner { padding: 8px 15px; border-radius: 5px; font-size: 0.85em; margin-bottom: 15px; text-align: center; }
+  .banner-prueba { background: #fff3cd; border: 1px solid #F5A800; }
 </style>
 </head>
 <body>
@@ -51,7 +54,7 @@
   <!-- ===== SECCIÓN 1 ===== -->
   <div class="seccion activa" id="sec1">
     <h1>Encuesta de Preferencias Declaradas – PyPS</h1>
-    <div id="banner-prueba" class="modo-prueba-banner" style="display:none">
+    <div id="banner-prueba" class="banner banner-prueba" style="display:none">
       ⚠️ MODO PRUEBA — Los redirects están desactivados
     </div>
     <h2>Sección 1: Consentimiento informado</h2>
@@ -83,10 +86,10 @@
     </div>
 
     <div class="pregunta">
-      <p>P4: ¿Ha adquirido alguna vez un permiso del Pico y Placa Solidario?</p>
-      <label class="opcion"><input type="radio" name="P4" value="Diario"> Sí, permiso diario</label>
-      <label class="opcion"><input type="radio" name="P4" value="Mensual"> Sí, permiso mensual</label>
-      <label class="opcion"><input type="radio" name="P4" value="Semestral"> Sí, permiso semestral</label>
+      <p>P4: ¿Ha adquirido alguna vez un permiso diario del Pico y Placa Solidario (PyPS)?</p>
+      <label class="opcion"><input type="radio" name="P4" value="Diario"> Sí</label>
+      <label class="opcion"><input type="radio" name="P4" value="Mensual"> No, solo he comprado el permiso mensual</label>
+      <label class="opcion"><input type="radio" name="P4" value="Semestral"> No, solo he comprado el permiso semestral</label>
       <label class="opcion"><input type="radio" name="P4" value="No"> No he comprado ningún permiso</label>
       <span class="alerta" id="alerta-P4">Por favor seleccione una opción</span>
     </div>
@@ -111,7 +114,7 @@
 
   <!-- ===== SECCIÓN 2 ===== -->
   <div class="seccion" id="sec2">
-    <h2>Sección 2: Experiencia con PyPS</h2>
+    <h2>Sección 2: Experiencia con el Pico y Placa Solidario (PyPS)</h2>
 
     <div id="div-usuarios">
       <div class="pregunta">
@@ -123,7 +126,7 @@
 
       <div id="div-P7" class="oculto">
         <div class="pregunta">
-          <p>P7: Aproximadamente, ¿cuántos permisos PyPS diarios ha adquirido en el último año?</p>
+          <p>P7: Aproximadamente, ¿cuántos permisos PyPS diarios ha comprado en los últimos 3 meses?</p>
           <input type="number" id="P7" placeholder="Número de permisos" min="1">
           <span class="alerta" id="alerta-P7">Por favor ingrese un número</span>
         </div>
@@ -153,12 +156,13 @@
     </div>
 
     <button class="btn" onclick="validarSec2()">Continuar →</button>
+    <button class="btn-atras" onclick="mostrarSeccion('sec1', 0)">← Atrás</button>
   </div>
 
   <!-- ===== SECCIÓN 3 ===== -->
   <div class="seccion" id="sec3">
     <h2>Sección 3: Aceptación del programa</h2>
-    <p style="margin-bottom:15px"><em>Escala: 1 = Totalmente en desacuerdo &nbsp;|&nbsp; 5 = Totalmente de acuerdo</em></p>
+    <p style="margin-bottom:15px"><em>Seleccione su nivel de acuerdo con cada afirmación:</em></p>
 
     <div class="pregunta">
       <p>P9: El PyPS es una medida justa porque permite circular a quienes más lo necesitan, independientemente de su ingreso.</p>
@@ -173,13 +177,13 @@
     <div class="pregunta">
       <p>P11: El proceso para adquirir un permiso PyPS (registro, pago, uso) es fácil y conveniente.</p>
       <div class="escala" id="escala-P11"></div>
-      <label class="opcion" style="margin-top:5px"><input type="radio" name="P11" value="NS/NR"> NS/NR</label>
+      <label class="opcion" style="margin-top:8px"><input type="radio" name="P11" value="NS/NR"> No sabe / No responde</label>
       <span class="alerta" id="alerta-P11">Por favor seleccione una opción</span>
     </div>
     <div class="pregunta">
       <p>P12: El precio del permiso PyPS es razonable en comparación con los beneficios que ofrece.</p>
       <div class="escala" id="escala-P12"></div>
-      <label class="opcion" style="margin-top:5px"><input type="radio" name="P12" value="NS/NR"> NS/NR</label>
+      <label class="opcion" style="margin-top:8px"><input type="radio" name="P12" value="NS/NR"> No sabe / No responde</label>
       <span class="alerta" id="alerta-P12">Por favor seleccione una opción</span>
     </div>
     <div class="pregunta">
@@ -189,6 +193,7 @@
     </div>
 
     <button class="btn" onclick="validarSec3()">Continuar →</button>
+    <button class="btn-atras" onclick="mostrarSeccion('sec2', 15)">← Atrás</button>
   </div>
 
   <!-- ===== SECCIÓN 4 ===== -->
@@ -220,7 +225,7 @@
       <label class="opcion"><input type="radio" name="P16" value="4"> 4</label>
       <label class="opcion"><input type="radio" name="P16" value="5"> 5</label>
       <label class="opcion"><input type="radio" name="P16" value="6"> 6</label>
-      <label class="opcion"><input type="radio" name="P16" value="NS/NR"> NS/NR</label>
+      <label class="opcion"><input type="radio" name="P16" value="NS/NR"> No sabe / No responde</label>
       <span class="alerta" id="alerta-P16">Por favor seleccione una opción</span>
     </div>
 
@@ -231,7 +236,7 @@
       <label class="opcion"><input type="radio" name="P17" value="$4M-$7M"> Entre $4.000.000 y $7.000.000</label>
       <label class="opcion"><input type="radio" name="P17" value="$7M-$12M"> Entre $7.000.000 y $12.000.000</label>
       <label class="opcion"><input type="radio" name="P17" value="Más de $12M"> Más de $12.000.000</label>
-      <label class="opcion"><input type="radio" name="P17" value="NS/NR"> NS/NR</label>
+      <label class="opcion"><input type="radio" name="P17" value="NS/NR"> No sabe / No responde</label>
       <span class="alerta" id="alerta-P17">Por favor seleccione una opción</span>
     </div>
 
@@ -251,7 +256,7 @@
       <label class="opcion"><input type="radio" name="P19" value="Se dedica al hogar"> Se dedica al hogar</label>
       <label class="opcion"><input type="radio" name="P19" value="Pensionado/a"> Pensionado/a</label>
       <label class="opcion"><input type="radio" name="P19" value="Otro"> Otro: <input type="text" id="P19-otro" placeholder="Especifique" style="width:180px;display:inline;margin-left:5px"></label>
-      <label class="opcion"><input type="radio" name="P19" value="NS/NR"> NS/NR</label>
+      <label class="opcion"><input type="radio" name="P19" value="NS/NR"> No sabe / No responde</label>
       <span class="alerta" id="alerta-P19">Por favor seleccione una opción</span>
     </div>
 
@@ -263,6 +268,7 @@
     </div>
 
     <button class="btn" onclick="validarSec4()">Continuar →</button>
+    <button class="btn-atras" onclick="mostrarSeccion('sec3', 30)">← Atrás</button>
   </div>
 
   <!-- ===== SECCIÓN 5 ===== -->
@@ -317,29 +323,53 @@
 
     <div class="pregunta">
       <p>P26: ¿Cuánto tiempo tardó aproximadamente su último viaje en vehículo particular?</p>
-      <input type="number" id="P26" placeholder="Tiempo en minutos" min="1" max="300">
-      <span style="font-size:0.9em;color:#666"> minutos</span>
-      <span class="alerta" id="alerta-P26">Por favor ingrese el tiempo en minutos</span>
+      <input type="number" id="P26" placeholder="Tiempo en minutos" min="5" max="300">
+      <span style="font-size:0.9em;color:#666"> minutos (mínimo 5, máximo 300)</span>
+      <span class="alerta" id="alerta-P26">Por favor ingrese un tiempo entre 5 y 300 minutos</span>
     </div>
 
     <div class="pregunta" id="div-P27" style="display:none">
-      <p>P27: ¿Cuánto pagó la última vez que adquirió un permiso PyPS diario?</p>
-      <input type="number" id="P27" placeholder="Valor en pesos COP" min="1">
-      <span style="font-size:0.9em;color:#666"> COP</span>
-      <span class="alerta" id="alerta-P27">Por favor ingrese el valor pagado</span>
+      <p>P27: ¿Cuánto pagó la última vez que adquirió un permiso del Pico y Placa Solidario (PyPS)?</p>
+      <input type="number" id="P27" placeholder="Valor en pesos COP" min="60000" max="190000">
+      <span style="font-size:0.9em;color:#666"> COP (entre $60.000 y $190.000)</span>
+      <span class="alerta" id="alerta-P27">Por favor ingrese un valor entre $60.000 y $190.000</span>
     </div>
 
     <button class="btn" onclick="validarSec5()">Continuar →</button>
+    <button class="btn-atras" onclick="mostrarSeccion('sec4', 45)">← Atrás</button>
   </div>
 
-  <!-- ===== SECCIÓN 6 ===== -->
-  <div class="seccion" id="sec6">
+  <!-- ===== SECCIÓN 6A (escenarios 1-3) ===== -->
+  <div class="seccion" id="sec6a">
     <h2>Sección 6: Experimento de elección</h2>
     <p style="margin-bottom:15px; line-height:1.7; background:#f9f9f9; padding:12px; border-radius:8px; border-left:4px solid #F5A800">
       <em>Piense en el último viaje que realizó en su vehículo particular. Ahora suponga que mañana debe realizar ese mismo viaje, pero ese día tiene restricción de Pico y Placa. Dado que usted va a realizar el viaje de todas formas, ¿cuál de las siguientes opciones elegiría?</em>
     </p>
-    <div id="contenedor-escenarios"></div>
-    <button class="btn" id="btn-enviar" onclick="validarSec6()">Enviar encuesta</button>
+    <div id="escenarios-1-3"></div>
+    <button class="btn" onclick="validarBloque(1)">Continuar →</button>
+    <button class="btn-atras" onclick="mostrarSeccion('sec5', 60)">← Atrás</button>
+  </div>
+
+  <!-- ===== SECCIÓN 6B (escenarios 4-6) ===== -->
+  <div class="seccion" id="sec6b">
+    <h2>Sección 6: Experimento de elección</h2>
+    <p style="margin-bottom:15px; line-height:1.7; background:#f9f9f9; padding:12px; border-radius:8px; border-left:4px solid #F5A800">
+      <em>Piense en el último viaje que realizó en su vehículo particular. Ahora suponga que mañana debe realizar ese mismo viaje, pero ese día tiene restricción de Pico y Placa. Dado que usted va a realizar el viaje de todas formas, ¿cuál de las siguientes opciones elegiría?</em>
+    </p>
+    <div id="escenarios-4-6"></div>
+    <button class="btn" onclick="validarBloque(2)">Continuar →</button>
+    <button class="btn-atras" onclick="mostrarSeccion('sec6a', 75)">← Atrás</button>
+  </div>
+
+  <!-- ===== SECCIÓN 6C (escenarios 7-9) ===== -->
+  <div class="seccion" id="sec6c">
+    <h2>Sección 6: Experimento de elección</h2>
+    <p style="margin-bottom:15px; line-height:1.7; background:#f9f9f9; padding:12px; border-radius:8px; border-left:4px solid #F5A800">
+      <em>Piense en el último viaje que realizó en su vehículo particular. Ahora suponga que mañana debe realizar ese mismo viaje, pero ese día tiene restricción de Pico y Placa. Dado que usted va a realizar el viaje de todas formas, ¿cuál de las siguientes opciones elegiría?</em>
+    </p>
+    <div id="escenarios-7-9"></div>
+    <button class="btn" id="btn-enviar" onclick="validarBloque(3)">Enviar encuesta</button>
+    <button class="btn-atras" onclick="mostrarSeccion('sec6b', 83)">← Atrás</button>
   </div>
 
   <!-- FIN -->
@@ -354,18 +384,17 @@
 
 <script>
 // =====================================================
-// CONFIGURACIÓN — CAMBIAR MODO_PRUEBA A false
-// CUANDO ESTÉS LISTA PARA ACTIVAR CON OFFERWISE
+// CONFIGURACIÓN
+// MODO_PRUEBA = true  → redirects desactivados (para pruebas)
+// MODO_PRUEBA = false → redirects activos (producción con Offerwise)
 // =====================================================
 const MODO_PRUEBA = true;
 
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdE7n67JnyPz8bWHVVvSwINw2gutvFmy-imzmk06ii1otA_ngrt19OLa_LDNyLpKGa/exec";
 
-// Redirects Offerwise
-const REDIRECT_COMPLETE  = "https://www.surveytaking.com/processsurvey.php?status=complete&owid=";
-const REDIRECT_SCREENED  = "https://www.surveytaking.com/processsurvey.php?status=screened&owid=";
+const REDIRECT_COMPLETE = "https://www.surveytaking.com/processsurvey.php?status=complete&owid=";
+const REDIRECT_SCREENED = "https://www.surveytaking.com/processsurvey.php?status=screened&owid=";
 
-// Capturar ID del panelista desde la URL (?owid=XXXXX)
 const urlParams = new URLSearchParams(window.location.search);
 const OWID = urlParams.get('owid') || '';
 
@@ -382,45 +411,51 @@ const DISENO = [
   [1, 2, 1, 3, 3]
 ];
 
-const FACTOR_TAXI = 44 / 51;
-const FACTOR_TP   = 80 / 51;
-const COSTO_TP    = 3550;
-
+const FACTOR_TAXI    = 44 / 51;
+const FACTOR_TP      = 80 / 51;
+const COSTO_TP       = 3550;
 const BANDERAZO      = 4500;
 const TARIFA_POR_KM  = 1590;
 const VELOCIDAD_TAXI = 23;
 
 const PRECIOS_NO_USUARIO = [42200, 56200, 70300];
 
+const ETIQUETAS_LIKERT = [
+  "1 – Totalmente en desacuerdo",
+  "2 – En desacuerdo",
+  "3 – Ni de acuerdo ni en desacuerdo",
+  "4 – De acuerdo",
+  "5 – Totalmente de acuerdo"
+];
+
 let esUsuario   = false;
 let tiempo_real = 0;
 let precio_real = 0;
+let datosFiltroParcial = {};
 
 // ===== INICIALIZAR =====
 function init() {
   crearEscalas();
-  if (MODO_PRUEBA) {
-    document.getElementById('banner-prueba').style.display = 'block';
-  }
+  if (MODO_PRUEBA) document.getElementById('banner-prueba').style.display = 'block';
 }
 
-// ===== CALCULAR COSTO TAXI =====
+// ===== COSTO TAXI =====
 function calcularCostoTaxiRef(tiempo_carro_min) {
   const tiempo_taxi_min = tiempo_carro_min * FACTOR_TAXI;
   const distancia_km    = (tiempo_taxi_min / 60) * VELOCIDAD_TAXI;
   return Math.round(BANDERAZO + distancia_km * TARIFA_POR_KM);
 }
 
-// ===== ESCALAS LIKERT =====
+// ===== ESCALAS LIKERT CON ETIQUETAS =====
 function crearEscalas() {
   ['P9','P10','P11','P12','P13'].forEach(p => {
     const div = document.getElementById('escala-' + p);
     if (!div) return;
-    for (let i = 1; i <= 5; i++) {
+    ETIQUETAS_LIKERT.forEach((etiqueta, i) => {
       const lbl = document.createElement('label');
-      lbl.innerHTML = `<input type="radio" name="${p}" value="${i}"> <span>${i}</span>`;
+      lbl.innerHTML = `<input type="radio" name="${p}" value="${i+1}"> ${etiqueta}`;
       div.appendChild(lbl);
-    }
+    });
   });
 }
 
@@ -437,7 +472,7 @@ function mostrarSeccion(id, pct) {
 }
 
 function redirigir(url) {
-  if (MODO_PRUEBA) return; // En modo prueba no redirige
+  if (MODO_PRUEBA) return;
   window.location.href = url + OWID;
 }
 
@@ -456,6 +491,17 @@ function mostrarP7() {
   document.getElementById('div-P7').classList.toggle('oculto', v !== 'Si');
 }
 
+// ===== GUARDAR FILTRADOS =====
+function guardarFiltrado(razon) {
+  const datos = Object.assign({}, datosFiltroParcial, {
+    id_encuesta: Date.now(),
+    owid: OWID,
+    filtrado_en: razon,
+    completo: 'No'
+  });
+  fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(datos) }).catch(() => {});
+}
+
 // ===== VALIDAR SECCIÓN 1 =====
 function validarSec1() {
   let ok = true;
@@ -466,7 +512,20 @@ function validarSec1() {
   });
   if (!ok) return;
 
+  datosFiltroParcial = {
+    P1: getRadio('P1'), P2: getRadio('P2'),
+    P3: getRadio('P3'), P4: getRadio('P4'), P5: getRadio('P5')
+  };
+
   if (getRadio('P1') === 'No' || getRadio('P2') === 'No' || getRadio('P3') === 'No') {
+    guardarFiltrado('P1-P2-P3');
+    mostrarSeccion('sec-filtro', 100);
+    redirigir(REDIRECT_SCREENED);
+    return;
+  }
+
+  if (getRadio('P5') === 'Si') {
+    guardarFiltrado('P5-plataforma');
     mostrarSeccion('sec-filtro', 100);
     redirigir(REDIRECT_SCREENED);
     return;
@@ -474,6 +533,7 @@ function validarSec1() {
 
   const p4 = getRadio('P4');
   if (p4 === 'Mensual' || p4 === 'Semestral') {
+    guardarFiltrado('P4-mensual-semestral');
     mostrarSeccion('sec-filtro', 100);
     redirigir(REDIRECT_SCREENED);
     return;
@@ -550,13 +610,15 @@ function validarSec5() {
   });
 
   const t = parseFloat(document.getElementById('P26').value);
-  mostrarAlerta('P26', !t || t <= 0);
-  if (!t || t <= 0) ok = false;
+  const tOk = t >= 5 && t <= 300;
+  mostrarAlerta('P26', !tOk);
+  if (!tOk) ok = false;
 
   if (esUsuario) {
     const p = parseFloat(document.getElementById('P27').value);
-    mostrarAlerta('P27', !p || p <= 0);
-    if (!p || p <= 0) ok = false;
+    const pOk = p >= 60000 && p <= 190000;
+    mostrarAlerta('P27', !pOk);
+    if (!pOk) ok = false;
   }
 
   if (!ok) return;
@@ -565,83 +627,94 @@ function validarSec5() {
   precio_real = esUsuario ? parseFloat(document.getElementById('P27').value) : 0;
 
   generarEscenarios();
-  mostrarSeccion('sec6', 75);
+  mostrarSeccion('sec6a', 75);
 }
 
-// ===== GENERAR ESCENARIOS =====
+// ===== GENERAR TARJETA =====
 function nivel(n) { return n === 1 ? 0.8 : n === 2 ? 1.0 : 1.2; }
 
 function formatCOP(n) {
   return '$' + Math.round(n).toLocaleString('es-CO');
 }
 
-function generarEscenarios() {
+function generarTarjeta(i) {
+  const row = DISENO[i];
+  const [nPrecio, nTPyps, nCTaxi, nTTaxi, nTTP] = row;
+
   const costo_taxi_ref  = calcularCostoTaxiRef(tiempo_real);
   const tiempo_taxi_ref = tiempo_real * FACTOR_TAXI;
   const tiempo_tp_ref   = tiempo_real * FACTOR_TP;
 
-  const cont = document.getElementById('contenedor-escenarios');
-  cont.innerHTML = '';
+  const precio_pyps = esUsuario
+    ? Math.round(precio_real * nivel(nPrecio))
+    : PRECIOS_NO_USUARIO[nPrecio - 1];
 
-  DISENO.forEach((row, i) => {
-    const [nPrecio, nTPyps, nCTaxi, nTTaxi, nTTP] = row;
+  const t_pyps = Math.round(tiempo_real * nivel(nTPyps));
+  const t_taxi = Math.round(tiempo_taxi_ref * nivel(nTTaxi));
+  const t_tp   = Math.round(tiempo_tp_ref * nivel(nTTP));
+  const c_taxi = Math.round(costo_taxi_ref * nivel(nCTaxi));
 
-    const precio_pyps = esUsuario
-      ? Math.round(precio_real * nivel(nPrecio))
-      : PRECIOS_NO_USUARIO[nPrecio - 1];
-
-    const t_pyps = Math.round(tiempo_real * nivel(nTPyps));
-    const t_taxi = Math.round(tiempo_taxi_ref * nivel(nTTaxi));
-    const t_tp   = Math.round(tiempo_tp_ref * nivel(nTTP));
-    const c_taxi = Math.round(costo_taxi_ref * nivel(nCTaxi));
-
-    cont.innerHTML += `
-      <div class="escenario-box">
-        <p class="escenario-titulo">Escenario ${i + 1} de 9</p>
-        <table class="tarjeta-escenario">
-          <thead>
-            <tr>
-              <th></th>
-              <th>🚗 Pagar PyPS</th>
-              <th>🚕 Taxi / Uber</th>
-              <th>🚌 TransMilenio / SITP</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Costo</td>
-              <td>${formatCOP(precio_pyps)}</td>
-              <td>${formatCOP(c_taxi)}</td>
-              <td>${formatCOP(COSTO_TP)}</td>
-            </tr>
-            <tr>
-              <td>Tiempo</td>
-              <td>${t_pyps} min</td>
-              <td>${t_taxi} min</td>
-              <td>${t_tp} min</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="opciones-escenario">
-          <label><input type="radio" name="E${i+1}" value="PyPS"> Pagaría PyPS y viajaría en mi carro</label>
-          <label><input type="radio" name="E${i+1}" value="Taxi"> Viajaría en Taxi / Uber</label>
-          <label><input type="radio" name="E${i+1}" value="TP"> Viajaría en TransMilenio / SITP</label>
-        </div>
-        <span class="alerta" id="alerta-E${i+1}">Por favor seleccione una opción</span>
-      </div>`;
-  });
+  return `
+    <div class="escenario-box">
+      <p class="escenario-titulo">Escenario ${i + 1} de 9</p>
+      <table class="tarjeta-escenario">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Alt. 1<br>🚗 Pagar PyPS</th>
+            <th>Alt. 2<br>🚕 Taxi / Uber</th>
+            <th>Alt. 3<br>🚌 TransMilenio / SITP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Costo</td>
+            <td>${formatCOP(precio_pyps)}</td>
+            <td>${formatCOP(c_taxi)}</td>
+            <td>${formatCOP(COSTO_TP)}</td>
+          </tr>
+          <tr>
+            <td>Tiempo</td>
+            <td>${t_pyps} min</td>
+            <td>${t_taxi} min</td>
+            <td>${t_tp} min</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="opciones-escenario">
+        <label><input type="radio" name="E${i+1}" value="PyPS"> Alt. 1 – Pagaría PyPS y viajaría en mi carro</label>
+        <label><input type="radio" name="E${i+1}" value="Taxi"> Alt. 2 – Viajaría en Taxi / Uber</label>
+        <label><input type="radio" name="E${i+1}" value="TP"> Alt. 3 – Viajaría en TransMilenio / SITP</label>
+      </div>
+      <span class="alerta" id="alerta-E${i+1}">Por favor seleccione una opción</span>
+    </div>`;
 }
 
-// ===== VALIDAR SECCIÓN 6 =====
-function validarSec6() {
+function generarEscenarios() {
+  document.getElementById('escenarios-1-3').innerHTML = [0,1,2].map(generarTarjeta).join('');
+  document.getElementById('escenarios-4-6').innerHTML = [3,4,5].map(generarTarjeta).join('');
+  document.getElementById('escenarios-7-9').innerHTML = [6,7,8].map(generarTarjeta).join('');
+}
+
+// ===== VALIDAR BLOQUES =====
+function validarBloque(bloque) {
+  const rangos = { 1: [1,2,3], 2: [4,5,6], 3: [7,8,9] };
+  const sigs   = { 1: 'sec6b', 2: 'sec6c', 3: null };
+  const pcts   = { 1: 83, 2: 91, 3: 100 };
+
   let ok = true;
-  for (let i = 1; i <= 9; i++) {
+  rangos[bloque].forEach(i => {
     const v = getRadio('E' + i);
     document.getElementById('alerta-E' + i).style.display = v ? 'none' : 'block';
     if (!v) ok = false;
-  }
+  });
   if (!ok) return;
-  enviarDatos();
+
+  if (bloque < 3) {
+    mostrarSeccion(sigs[bloque], pcts[bloque]);
+  } else {
+    enviarDatos();
+  }
 }
 
 // ===== ENVIAR DATOS =====
@@ -652,36 +725,34 @@ function enviarDatos() {
 
   const p21 = Array.from(document.querySelectorAll('input[name="P21"]:checked')).map(e => e.value).join(', ') || 'Ninguno';
 
-  const p14_base = getRadio('P14');
-  let p14_val = p14_base || '';
-  if (p14_base === 'Cundinamarca') p14_val = 'Cundinamarca: ' + document.getElementById('P14-cund').value;
-  if (p14_base === 'Otro')         p14_val = 'Otro: '         + document.getElementById('P14-otro').value;
+  const p14b = getRadio('P14');
+  let p14v = p14b || '';
+  if (p14b === 'Cundinamarca') p14v = 'Cundinamarca: ' + document.getElementById('P14-cund').value;
+  if (p14b === 'Otro')         p14v = 'Otro: '         + document.getElementById('P14-otro').value;
 
-  const p19_base = getRadio('P19');
-  const p19_val  = p19_base === 'Otro' ? 'Otro: ' + document.getElementById('P19-otro').value : p19_base || '';
+  const p19b = getRadio('P19');
+  const p19v = p19b === 'Otro' ? 'Otro: ' + document.getElementById('P19-otro').value : p19b || '';
 
-  const p25_base = getRadio('P25');
-  const p25_val  = p25_base === 'Otro' ? 'Otro: ' + document.getElementById('P25-otro').value : p25_base || '';
+  const p25b = getRadio('P25');
+  const p25v = p25b === 'Otro' ? 'Otro: ' + document.getElementById('P25-otro').value : p25b || '';
 
-  const p8b_base = getRadio('P8b');
-  const p8b_val  = p8b_base === 'Otra' ? 'Otra: ' + document.getElementById('P8b-otro').value : p8b_base || '';
+  const p8bb = getRadio('P8b');
+  const p8bv = p8bb === 'Otra' ? 'Otra: ' + document.getElementById('P8b-otro').value : p8bb || '';
 
   const datos = {
-    id_encuesta: Date.now(),
-    owid: OWID,
+    id_encuesta: Date.now(), owid: OWID, completo: 'Si',
     P1: getRadio('P1'), P2: getRadio('P2'), P3: getRadio('P3'),
     P4: getRadio('P4'), P5: getRadio('P5'),
     P6:  esUsuario ? (getRadio('P6') || '') : '',
     P7:  esUsuario ? (document.getElementById('P7').value || '') : '',
     P8a: esUsuario ? (getRadio('P8a') || '') : '',
-    P8b: esUsuario ? '' : p8b_val,
+    P8b: esUsuario ? '' : p8bv,
     P9: getRadio('P9'), P10: getRadio('P10'), P11: getRadio('P11'),
     P12: getRadio('P12'), P13: getRadio('P13'),
-    P14: p14_val, P15: getRadio('P15'), P16: getRadio('P16'),
-    P17: getRadio('P17'), P18: getRadio('P18'), P19: p19_val,
-    P20: getRadio('P20'),
+    P14: p14v, P15: getRadio('P15'), P16: getRadio('P16'),
+    P17: getRadio('P17'), P18: getRadio('P18'), P19: p19v, P20: getRadio('P20'),
     P21: p21, P22: getRadio('P22'), P23: getRadio('P23'),
-    P24: getRadio('P24'), P25: p25_val,
+    P24: getRadio('P24'), P25: p25v,
     P26_tiempo_min:  tiempo_real,
     P27_precio_pyps: esUsuario ? precio_real : '',
     costo_taxi_ref:  calcularCostoTaxiRef(tiempo_real),
@@ -690,19 +761,16 @@ function enviarDatos() {
     E7: getRadio('E7'), E8: getRadio('E8'), E9: getRadio('E9')
   };
 
-  fetch(GOOGLE_SCRIPT_URL, {
-    method: 'POST',
-    body: JSON.stringify(datos)
-  }).then(() => {
-    mostrarSeccion('sec-fin', 100);
-    setTimeout(() => redirigir(REDIRECT_COMPLETE), 3000);
-  }).catch(() => {
-    mostrarSeccion('sec-fin', 100);
-    setTimeout(() => redirigir(REDIRECT_COMPLETE), 3000);
-  });
+  fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(datos) })
+    .then(() => {
+      mostrarSeccion('sec-fin', 100);
+      setTimeout(() => redirigir(REDIRECT_COMPLETE), 3000);
+    }).catch(() => {
+      mostrarSeccion('sec-fin', 100);
+      setTimeout(() => redirigir(REDIRECT_COMPLETE), 3000);
+    });
 }
 
-// ===== ARRANCAR =====
 init();
 </script>
 </body>
