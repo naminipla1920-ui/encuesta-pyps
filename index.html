@@ -40,13 +40,16 @@
   .opciones-escenario label { display: flex; align-items: center; gap: 5px; cursor: pointer; padding: 8px 12px; border: 2px solid #ccc; border-radius: 8px; font-size: 0.88em; }
   .opciones-escenario label:hover { border-color: #F5A800; }
   .escenario-box { margin-bottom: 25px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
-  .escenario-titulo { font-weight: bold; color: #003366; margin-bottom: 10px; }
+  .escenario-titulo { font-weight: bold; color: #003366; margin-bottom: 8px; }
+  .recordatorio { font-size: 0.85em; color: #555; font-style: italic; margin-bottom: 10px; }
   .fin-mensaje { text-align: center; padding: 30px; }
   .fin-mensaje h2 { color: #003366; font-size: 1.4em; margin-bottom: 15px; }
   .nota { font-size: 0.85em; color: #666; font-style: italic; margin-top: 5px; }
+  .nota-escenario { font-size: 0.82em; color: #666; background: #f9f9f9; border-left: 3px solid #F5A800; padding: 8px 12px; border-radius: 4px; margin-bottom: 15px; }
   .banner { padding: 8px 15px; border-radius: 5px; font-size: 0.85em; margin-bottom: 15px; text-align: center; }
   .banner-prueba { background: #fff3cd; border: 1px solid #F5A800; }
   .formato-cop { font-size: 0.9em; color: #003366; font-weight: bold; margin-top: 4px; }
+  .intro-experimento { margin-bottom:15px; line-height:1.7; background:#f9f9f9; padding:12px; border-radius:8px; border-left:4px solid #F5A800; font-style: italic; }
 </style>
 </head>
 <body>
@@ -85,7 +88,7 @@
       <span class="alerta" id="alerta-P3">Por favor seleccione una opción</span>
     </div>
     <div class="pregunta">
-      <p>P4: ¿Ha adquirido alguna vez un permiso diario del Pico y Placa Solidario (PyPS)?</p>
+      <p>P4: ¿Ha adquirido alguna vez un permiso <strong>DIARIO</strong> del Pico y Placa Solidario (PyPS)?</p>
       <label class="opcion"><input type="radio" name="P4" value="Diario"> Sí</label>
       <label class="opcion"><input type="radio" name="P4" value="Mensual"> No, solo he comprado el permiso mensual</label>
       <label class="opcion"><input type="radio" name="P4" value="Semestral"> No, solo he comprado el permiso semestral</label>
@@ -138,12 +141,14 @@
       <div id="div-P8b-usuario" class="oculto">
         <div class="pregunta">
           <p>P8b: ¿Cuál es la principal razón por la que no ha usado el PyPS en los últimos 12 meses?</p>
-          <label class="opcion"><input type="radio" name="P8b" value="Es muy costoso"> Es muy costoso</label>
-          <label class="opcion"><input type="radio" name="P8b" value="Trámite complicado"> El trámite es complicado</label>
-          <label class="opcion"><input type="radio" name="P8b" value="Prefiero otro modo"> Prefiero usar otro medio de transporte</label>
-          <label class="opcion"><input type="radio" name="P8b" value="No sabía que existía"> No sabía que existía</label>
-          <label class="opcion"><input type="radio" name="P8b" value="No he requerido circular"> No he requerido circular en mi vehículo cuando tengo Pico y Placa</label>
-          <label class="opcion"><input type="radio" name="P8b" value="Otra"> Otra: <input type="text" id="P8b-otro-u" placeholder="Especifique" style="width:180px;display:inline;margin-left:5px"></label>
+          <label class="opcion"><input type="radio" name="P8b" value="Es muy costoso" onclick="manejarP8bOtro(this)"> Es muy costoso</label>
+          <label class="opcion"><input type="radio" name="P8b" value="Trámite complicado" onclick="manejarP8bOtro(this)"> El trámite es complicado</label>
+          <label class="opcion"><input type="radio" name="P8b" value="Prefiero otro modo" onclick="manejarP8bOtro(this)"> Prefiero usar otro medio de transporte</label>
+          <label class="opcion"><input type="radio" name="P8b" value="No sabía que existía" onclick="manejarP8bOtro(this)"> No sabía que existía</label>
+          <label class="opcion"><input type="radio" name="P8b" value="No he requerido circular" onclick="manejarP8bOtro(this)"> No he requerido circular en mi vehículo cuando tengo Pico y Placa</label>
+          <label class="opcion"><input type="radio" name="P8b" value="Otra" onclick="manejarP8bOtro(this)"> Otra:
+            <input type="text" id="P8b-otro-u" placeholder="Especifique" disabled style="width:180px;display:inline;margin-left:5px">
+          </label>
           <span class="alerta" id="alerta-P8b-usuario">Por favor seleccione una opción</span>
         </div>
       </div>
@@ -151,12 +156,14 @@
     <div id="div-no-usuarios" class="oculto">
       <div class="pregunta">
         <p>P8b: ¿Cuál es la principal razón por la que no ha usado el PyPS diario?</p>
-        <label class="opcion"><input type="radio" name="P8b" value="Es muy costoso"> Es muy costoso</label>
-        <label class="opcion"><input type="radio" name="P8b" value="Trámite complicado"> El trámite es complicado</label>
-        <label class="opcion"><input type="radio" name="P8b" value="Prefiero otro modo"> Prefiero usar otro medio de transporte</label>
-        <label class="opcion"><input type="radio" name="P8b" value="No sabía que existía"> No sabía que existía</label>
-        <label class="opcion"><input type="radio" name="P8b" value="No he requerido circular"> No he requerido circular en mi vehículo cuando tengo Pico y Placa</label>
-        <label class="opcion"><input type="radio" name="P8b" value="Otra"> Otra: <input type="text" id="P8b-otro" placeholder="Especifique" style="width:180px;display:inline;margin-left:5px"></label>
+        <label class="opcion"><input type="radio" name="P8b" value="Es muy costoso" onclick="manejarP8bOtro(this)"> Es muy costoso</label>
+        <label class="opcion"><input type="radio" name="P8b" value="Trámite complicado" onclick="manejarP8bOtro(this)"> El trámite es complicado</label>
+        <label class="opcion"><input type="radio" name="P8b" value="Prefiero otro modo" onclick="manejarP8bOtro(this)"> Prefiero usar otro medio de transporte</label>
+        <label class="opcion"><input type="radio" name="P8b" value="No sabía que existía" onclick="manejarP8bOtro(this)"> No sabía que existía</label>
+        <label class="opcion"><input type="radio" name="P8b" value="No he requerido circular" onclick="manejarP8bOtro(this)"> No he requerido circular en mi vehículo cuando tengo Pico y Placa</label>
+        <label class="opcion"><input type="radio" name="P8b" value="Otra" onclick="manejarP8bOtro(this)"> Otra:
+          <input type="text" id="P8b-otro" placeholder="Especifique" disabled style="width:180px;display:inline;margin-left:5px">
+        </label>
         <span class="alerta" id="alerta-P8b">Por favor seleccione una opción</span>
       </div>
     </div>
@@ -201,7 +208,7 @@
 
   <!-- SECCIÓN 4 -->
   <div class="seccion" id="sec4">
-    <h2>Sección 4: Perfil socioeconómico</h2>
+    <h2>Sección 4: Perfil del conductor</h2>
     <div class="pregunta">
       <p>P14: ¿En qué municipio está matriculado su vehículo?</p>
       <label class="opcion"><input type="radio" name="P14" value="Bogotá D.C." onclick="manejarP14(this)"> Bogotá D.C.</label>
@@ -318,12 +325,12 @@
     </div>
     <div class="pregunta">
       <p>P26: ¿Cuánto tiempo tardó aproximadamente su último viaje en vehículo particular?</p>
-      <input type="number" id="P26" placeholder="Ingrese el tiempo en minutos">
+      <input type="number" id="P26" placeholder="Ingrese el tiempo en minutos" min="5" max="300" step="1" oninput="soloEnteros(this)">
       <span class="alerta" id="alerta-P26">Por favor ingrese un tiempo válido (entre 5 y 300 minutos)</span>
     </div>
     <div class="pregunta" id="div-P27" style="display:none">
       <p>P27: ¿Cuánto pagó la última vez que adquirió un permiso del Pico y Placa Solidario (PyPS)?</p>
-      <input type="number" id="P27" placeholder="Ingrese el valor en pesos COP" oninput="mostrarFormatoCOP()">
+      <input type="number" id="P27" placeholder="Ingrese el valor en pesos COP" min="60000" max="190000" step="1" oninput="soloEnteros(this); mostrarFormatoCOP()">
       <div class="formato-cop" id="formato-P27" style="display:none"></div>
       <span class="alerta" id="alerta-P27">Por favor ingrese un valor válido (entre $60.000 y $190.000)</span>
     </div>
@@ -334,9 +341,8 @@
   <!-- SECCIÓN 6A -->
   <div class="seccion" id="sec6a">
     <h2>Sección 6: Experimento de elección</h2>
-    <p style="margin-bottom:15px; line-height:1.7; background:#f9f9f9; padding:12px; border-radius:8px; border-left:4px solid #F5A800">
-      <em>Piense en el último viaje que realizó en su vehículo particular. Ahora suponga que mañana debe realizar ese mismo viaje, pero ese día tiene restricción de Pico y Placa. Dado que usted va a realizar el viaje de todas formas, ¿cuál de las siguientes opciones elegiría?</em>
-    </p>
+    <p class="intro-experimento">Piense en el último viaje que realizó en su vehículo particular. Ahora suponga que mañana debe realizar ese mismo viaje, pero ese día tiene restricción de Pico y Placa. Dado que usted va a realizar el viaje de todas formas, ¿cuál de las siguientes opciones elegiría?</p>
+    <p class="nota-escenario">📌 <strong>Nota:</strong> La alternativa Taxi / Uber incluye todas las aplicaciones de transporte: Uber, Didi, Cabify, InDriver, Yango y similares.</p>
     <div id="escenarios-1-3"></div>
     <button class="btn" onclick="validarBloque(1)">Continuar →</button>
     <button class="btn-atras" onclick="mostrarSeccion('sec5', 60)">← Atrás</button>
@@ -345,9 +351,8 @@
   <!-- SECCIÓN 6B -->
   <div class="seccion" id="sec6b">
     <h2>Sección 6: Experimento de elección</h2>
-    <p style="margin-bottom:15px; line-height:1.7; background:#f9f9f9; padding:12px; border-radius:8px; border-left:4px solid #F5A800">
-      <em>Piense en el último viaje que realizó en su vehículo particular. Ahora suponga que mañana debe realizar ese mismo viaje, pero ese día tiene restricción de Pico y Placa. Dado que usted va a realizar el viaje de todas formas, ¿cuál de las siguientes opciones elegiría?</em>
-    </p>
+    <p class="intro-experimento">Piense en el último viaje que realizó en su vehículo particular. Ahora suponga que mañana debe realizar ese mismo viaje, pero ese día tiene restricción de Pico y Placa. Dado que usted va a realizar el viaje de todas formas, ¿cuál de las siguientes opciones elegiría?</p>
+    <p class="nota-escenario">📌 <strong>Nota:</strong> La alternativa Taxi / Uber incluye todas las aplicaciones de transporte: Uber, Didi, Cabify, InDriver, Yango y similares.</p>
     <div id="escenarios-4-6"></div>
     <button class="btn" onclick="validarBloque(2)">Continuar →</button>
     <button class="btn-atras" onclick="mostrarSeccion('sec6a', 75)">← Atrás</button>
@@ -356,9 +361,8 @@
   <!-- SECCIÓN 6C -->
   <div class="seccion" id="sec6c">
     <h2>Sección 6: Experimento de elección</h2>
-    <p style="margin-bottom:15px; line-height:1.7; background:#f9f9f9; padding:12px; border-radius:8px; border-left:4px solid #F5A800">
-      <em>Piense en el último viaje que realizó en su vehículo particular. Ahora suponga que mañana debe realizar ese mismo viaje, pero ese día tiene restricción de Pico y Placa. Dado que usted va a realizar el viaje de todas formas, ¿cuál de las siguientes opciones elegiría?</em>
-    </p>
+    <p class="intro-experimento">Piense en el último viaje que realizó en su vehículo particular. Ahora suponga que mañana debe realizar ese mismo viaje, pero ese día tiene restricción de Pico y Placa. Dado que usted va a realizar el viaje de todas formas, ¿cuál de las siguientes opciones elegiría?</p>
+    <p class="nota-escenario">📌 <strong>Nota:</strong> La alternativa Taxi / Uber incluye todas las aplicaciones de transporte: Uber, Didi, Cabify, InDriver, Yango y similares.</p>
     <div id="escenarios-7-9"></div>
     <button class="btn" id="btn-enviar" onclick="validarBloque(3)">Enviar encuesta</button>
     <button class="btn-atras" onclick="mostrarSeccion('sec6b', 83)">← Atrás</button>
@@ -374,18 +378,11 @@
 
 </div>
 <script>
-// =====================================================
-// CONFIGURACIÓN
-// MODO_PRUEBA = true  → redirects y cuotas desactivados
-// MODO_PRUEBA = false → producción con Offerwise
-// =====================================================
 const MODO_PRUEBA = true;
-
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdE7n67JnyPz8bWHVVvSwINw2gutvFmy-imzmk06ii1otA_ngrt19OLa_LDNyLpKGa/exec";
 const REDIRECT_COMPLETE  = "https://www.surveytaking.com/processsurvey.php?status=complete&owid=";
 const REDIRECT_SCREENED  = "https://www.surveytaking.com/processsurvey.php?status=screened&owid=";
 const REDIRECT_QUOTAFULL = "https://www.surveytaking.com/processsurvey.php?status=quotafull&owid=";
-
 const META_USUARIOS    = 150;
 const META_NO_USUARIOS = 150;
 
@@ -416,40 +413,24 @@ let precio_real  = 0;
 let datosFiltroParcial = {};
 let cuotasActuales = { usuarios: 0, no_usuarios: 0 };
 
-// =====================================================
-// INICIALIZAR
-// =====================================================
 function init() {
   crearEscalas();
   verificarCuotas();
   if (MODO_PRUEBA) document.getElementById('banner-prueba').style.display = 'block';
 }
 
-// =====================================================
-// VERIFICAR CUOTAS AL CARGAR
-// =====================================================
 function verificarCuotas() {
   if (MODO_PRUEBA) return;
   fetch(GOOGLE_SCRIPT_URL)
     .then(r => r.json())
-    .then(data => {
-      cuotasActuales = data;
-    })
-    .catch(() => {
-      cuotasActuales = { usuarios: 0, no_usuarios: 0 };
-    });
+    .then(data => { cuotasActuales = data; })
+    .catch(() => { cuotasActuales = { usuarios: 0, no_usuarios: 0 }; });
 }
 
-// =====================================================
-// FÓRMULA TAXI — Decreto 042/2026
-// =====================================================
 function calcularCostoTaxiRef(t) {
   return Math.round(4600 + 622 * t);
 }
 
-// =====================================================
-// ESCALAS LIKERT
-// =====================================================
 function crearEscalas() {
   ['P9','P10','P11','P12','P13'].forEach(p => {
     const div = document.getElementById('escala-' + p);
@@ -462,9 +443,6 @@ function crearEscalas() {
   });
 }
 
-// =====================================================
-// NAVEGACIÓN
-// =====================================================
 function actualizarProgreso(pct) {
   document.getElementById('barra').style.width = pct + '%';
 }
@@ -480,9 +458,6 @@ function redirigir(url) {
   if (!MODO_PRUEBA) window.location.href = url + OWID;
 }
 
-// =====================================================
-// HELPERS
-// =====================================================
 function getRadio(name) {
   return document.querySelector(`input[name="${name}"]:checked`)?.value;
 }
@@ -498,14 +473,24 @@ function generarIdEncuesta() {
   return `ENC-${n.getFullYear()}${pad(n.getMonth()+1)}${pad(n.getDate())}-${pad(n.getHours())}${pad(n.getMinutes())}${pad(n.getSeconds())}`;
 }
 
-// =====================================================
-// LÓGICA DE PREGUNTAS
-// =====================================================
+// Solo enteros en inputs numéricos
+function soloEnteros(input) {
+  input.value = input.value.replace(/[^0-9]/g, '');
+}
+
 function mostrarP7() {
   const v = getRadio('P6');
   document.getElementById('div-P7').classList.toggle('oculto', v !== 'Si');
   document.getElementById('div-P8b-usuario').classList.toggle('oculto', v !== 'No');
   document.getElementById('div-P27').style.display = v === 'Si' ? 'block' : 'none';
+}
+
+// P8b — campo "Otra" solo activo si se selecciona "Otra"
+function manejarP8bOtro(radio) {
+  const campoU = document.getElementById('P8b-otro-u');
+  const campoN = document.getElementById('P8b-otro');
+  if (campoU) { campoU.disabled = (radio.value !== 'Otra'); if (radio.value !== 'Otra') campoU.value = ''; }
+  if (campoN) { campoN.disabled = (radio.value !== 'Otra'); if (radio.value !== 'Otra') campoN.value = ''; }
 }
 
 function manejarP14(radio) {
@@ -543,9 +528,6 @@ function mostrarFormatoCOP() {
   }
 }
 
-// =====================================================
-// GUARDAR FILTRADOS
-// =====================================================
 function guardarFiltrado(razon) {
   const datos = Object.assign({}, datosFiltroParcial, {
     id_encuesta: generarIdEncuesta(), owid: OWID,
@@ -554,9 +536,6 @@ function guardarFiltrado(razon) {
   fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(datos) }).catch(() => {});
 }
 
-// =====================================================
-// VALIDACIONES
-// =====================================================
 function validarSec1() {
   let ok = true;
   ['P1','P2','P3','P4','P5'].forEach(p => {
@@ -570,38 +549,24 @@ function validarSec1() {
   };
 
   if (getRadio('P1') === 'No' || getRadio('P2') === 'No' || getRadio('P3') === 'No') {
-    guardarFiltrado('P1-P2-P3');
-    mostrarSeccion('sec-filtro', 100);
-    redirigir(REDIRECT_SCREENED);
-    return;
+    guardarFiltrado('P1-P2-P3'); mostrarSeccion('sec-filtro', 100); redirigir(REDIRECT_SCREENED); return;
   }
   if (getRadio('P5') === 'Si') {
-    guardarFiltrado('P5-plataforma');
-    mostrarSeccion('sec-filtro', 100);
-    redirigir(REDIRECT_SCREENED);
-    return;
+    guardarFiltrado('P5-plataforma'); mostrarSeccion('sec-filtro', 100); redirigir(REDIRECT_SCREENED); return;
   }
   const p4 = getRadio('P4');
   if (p4 === 'Mensual' || p4 === 'Semestral') {
-    guardarFiltrado('P4-mensual-semestral');
-    mostrarSeccion('sec-filtro', 100);
-    redirigir(REDIRECT_SCREENED);
-    return;
+    guardarFiltrado('P4-mensual-semestral'); mostrarSeccion('sec-filtro', 100); redirigir(REDIRECT_SCREENED); return;
   }
 
   esUsuario = (p4 === 'Diario');
 
-  // Verificar cuotas según tipo de encuestado
   if (!MODO_PRUEBA) {
     if (esUsuario && cuotasActuales.usuarios >= META_USUARIOS) {
-      mostrarSeccion('sec-filtro', 100);
-      redirigir(REDIRECT_QUOTAFULL);
-      return;
+      mostrarSeccion('sec-filtro', 100); redirigir(REDIRECT_QUOTAFULL); return;
     }
     if (!esUsuario && cuotasActuales.no_usuarios >= META_NO_USUARIOS) {
-      mostrarSeccion('sec-filtro', 100);
-      redirigir(REDIRECT_QUOTAFULL);
-      return;
+      mostrarSeccion('sec-filtro', 100); redirigir(REDIRECT_QUOTAFULL); return;
     }
   }
 
@@ -613,12 +578,10 @@ function validarSec1() {
 
 function validarSec2() {
   let ok = true;
-
   if (esUsuario) {
     const p6 = getRadio('P6');
     mostrarAlerta('P6', !p6);
     if (!p6) ok = false;
-
     if (p6 === 'Si') {
       const p7 = document.getElementById('P7').value;
       mostrarAlerta('P7', !p7 || p7 <= 0);
@@ -627,7 +590,6 @@ function validarSec2() {
       mostrarAlerta('P8a', !p8a);
       if (!p8a) ok = false;
     }
-
     if (p6 === 'No') {
       const p8bu = getRadio('P8b');
       const el = document.getElementById('alerta-P8b-usuario');
@@ -639,7 +601,6 @@ function validarSec2() {
     mostrarAlerta('P8b', !p8b);
     if (!p8b) ok = false;
   }
-
   if (!ok) return;
   mostrarSeccion('sec3', 30);
 }
@@ -689,20 +650,13 @@ function validarSec5() {
   mostrarSeccion('sec6a', 75);
 }
 
-// =====================================================
-// GENERAR ESCENARIOS
-// =====================================================
 function nivel(n) { return n === 1 ? 0.8 : n === 2 ? 1.0 : 1.2; }
 function formatCOP(n) { return '$' + Math.round(n).toLocaleString('es-CO'); }
 
 function generarTarjeta(i) {
   const [nP, nT, nC, nTT, nTP] = DISENO[i];
   const ctRef = calcularCostoTaxiRef(tiempo_real);
-
-  const precio_pyps = esUsuarioExp
-    ? Math.round(precio_real * nivel(nP))
-    : PRECIOS_NO_USUARIO[nP - 1];
-
+  const precio_pyps = esUsuarioExp ? Math.round(precio_real * nivel(nP)) : PRECIOS_NO_USUARIO[nP - 1];
   const t_pyps = Math.round(tiempo_real * nivel(nT));
   const t_taxi = Math.round(tiempo_real * FACTOR_TAXI * nivel(nTT));
   const t_tp   = Math.round(tiempo_real * FACTOR_TP * nivel(nTP));
@@ -711,6 +665,7 @@ function generarTarjeta(i) {
   return `
     <div class="escenario-box">
       <p class="escenario-titulo">Escenario ${i+1} de 9</p>
+      <p class="recordatorio">¿Cuál opción elegiría para ese mismo viaje?</p>
       <table class="tarjeta-escenario">
         <thead><tr>
           <th></th>
@@ -753,9 +708,6 @@ function validarBloque(bloque) {
   else enviarDatos();
 }
 
-// =====================================================
-// ENVIAR DATOS
-// =====================================================
 function enviarDatos() {
   const btn = document.getElementById('btn-enviar');
   btn.disabled = true;
