@@ -112,6 +112,7 @@
   <!-- SECCIÓN 2 -->
   <div class="seccion" id="sec2">
     <h2>Sección 2: Experiencia con el Pico y Placa Solidario (PyPS)</h2>
+
     <div id="div-usuarios">
       <div class="pregunta">
         <p>P6: ¿Ha adquirido un permiso PyPS diario en los últimos 12 meses?</p>
@@ -119,6 +120,7 @@
         <label class="opcion"><input type="radio" name="P6" value="No" onclick="mostrarP7()"> No</label>
         <span class="alerta" id="alerta-P6">Por favor seleccione una opción</span>
       </div>
+
       <div id="div-P7" class="oculto">
         <div class="pregunta">
           <p>P7: Aproximadamente, ¿cuántos permisos PyPS diarios ha comprado en los últimos 3 meses?</p>
@@ -135,7 +137,21 @@
           <span class="alerta" id="alerta-P8a">Por favor seleccione una opción</span>
         </div>
       </div>
+
+      <div id="div-P8b-usuario" class="oculto">
+        <div class="pregunta">
+          <p>P8b: ¿Cuál es la principal razón por la que no ha usado el PyPS en los últimos 12 meses?</p>
+          <label class="opcion"><input type="radio" name="P8b" value="Es muy costoso"> Es muy costoso</label>
+          <label class="opcion"><input type="radio" name="P8b" value="Trámite complicado"> El trámite es complicado</label>
+          <label class="opcion"><input type="radio" name="P8b" value="Prefiero otro modo"> Prefiero usar otro medio de transporte</label>
+          <label class="opcion"><input type="radio" name="P8b" value="No sabía que existía"> No sabía que existía</label>
+          <label class="opcion"><input type="radio" name="P8b" value="No he requerido circular"> No he requerido circular en mi vehículo cuando tengo Pico y Placa</label>
+          <label class="opcion"><input type="radio" name="P8b" value="Otra"> Otra: <input type="text" id="P8b-otro-u" placeholder="Especifique" style="width:180px;display:inline;margin-left:5px"></label>
+          <span class="alerta" id="alerta-P8b-usuario">Por favor seleccione una opción</span>
+        </div>
+      </div>
     </div>
+
     <div id="div-no-usuarios" class="oculto">
       <div class="pregunta">
         <p>P8b: ¿Cuál es la principal razón por la que no ha usado el PyPS diario?</p>
@@ -148,6 +164,7 @@
         <span class="alerta" id="alerta-P8b">Por favor seleccione una opción</span>
       </div>
     </div>
+
     <button class="btn" onclick="validarSec2()">Continuar →</button>
     <button class="btn-atras" onclick="mostrarSeccion('sec1', 0)">← Atrás</button>
   </div>
@@ -377,7 +394,6 @@ const DISENO = [
 ];
 
 const FACTOR_TAXI = 44/51, FACTOR_TP = 80/51, COSTO_TP = 3550;
-const BANDERAZO = 4500, TARIFA_POR_KM = 1590, VELOCIDAD_TAXI = 23;
 const PRECIOS_NO_USUARIO = [42200, 56200, 70300];
 
 const ETIQUETAS_LIKERT = [
@@ -388,18 +404,18 @@ const ETIQUETAS_LIKERT = [
   "Totalmente<br>de acuerdo"
 ];
 
-let esUsuario = false, tiempo_real = 0, precio_real = 0;
+// esUsuario: compró PyPS diario alguna vez (P4=Diario)
+// esUsuarioExp: se trata como usuario en el experimento (P4=Diario Y P6=Si)
+let esUsuario = false;
+let esUsuarioExp = false;
+let tiempo_real = 0;
+let precio_real = 0;
 let datosFiltroParcial = {};
 
 function generarIdEncuesta() {
-  const ahora = new Date();
-  const yyyy = ahora.getFullYear();
-  const mm = String(ahora.getMonth()+1).padStart(2,'0');
-  const dd = String(ahora.getDate()).padStart(2,'0');
-  const hh = String(ahora.getHours()).padStart(2,'0');
-  const min = String(ahora.getMinutes()).padStart(2,'0');
-  const ss = String(ahora.getSeconds()).padStart(2,'0');
-  return `ENC-${yyyy}${mm}${dd}-${hh}${min}${ss}`;
+  const n = new Date();
+  const pad = x => String(x).padStart(2, '0');
+  return `ENC-${n.getFullYear()}${pad(n.getMonth()+1)}${pad(n.getDate())}-${pad(n.getHours())}${pad(n.getMinutes())}${pad(n.getSeconds())}`;
 }
 
 function init() {
@@ -407,8 +423,9 @@ function init() {
   if (MODO_PRUEBA) document.getElementById('banner-prueba').style.display = 'block';
 }
 
+// Fórmula Decreto 042/2026: $4.600 + $622 × tiempo_min
 function calcularCostoTaxiRef(t) {
-  return Math.round(BANDERAZO + (t * FACTOR_TAXI / 60) * VELOCIDAD_TAXI * TARIFA_POR_KM);
+  return Math.round(4600 + 622 * t);
 }
 
 function crearEscalas() {
@@ -450,6 +467,9 @@ function mostrarAlerta(id, mostrar) {
 function mostrarP7() {
   const v = getRadio('P6');
   document.getElementById('div-P7').classList.toggle('oculto', v !== 'Si');
+  document.getElementById('div-P8b-usuario').classList.toggle('oculto', v !== 'No');
+  // P27 solo si P6=Si
+  document.getElementById('div-P27').style.display = v === 'Si' ? 'block' : 'none';
 }
 
 function manejarP14(radio) {
@@ -489,10 +509,8 @@ function mostrarFormatoCOP() {
 
 function guardarFiltrado(razon) {
   const datos = Object.assign({}, datosFiltroParcial, {
-    id_encuesta: generarIdEncuesta(),
-    owid: OWID,
-    filtrado_en: razon,
-    completo: 'No'
+    id_encuesta: generarIdEncuesta(), owid: OWID,
+    filtrado_en: razon, completo: 'No'
   });
   fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(datos) }).catch(() => {});
 }
@@ -500,9 +518,7 @@ function guardarFiltrado(razon) {
 function validarSec1() {
   let ok = true;
   ['P1','P2','P3','P4','P5'].forEach(p => {
-    const v = getRadio(p);
-    mostrarAlerta(p, !v);
-    if (!v) ok = false;
+    const v = getRadio(p); mostrarAlerta(p, !v); if (!v) ok = false;
   });
   if (!ok) return;
 
@@ -512,38 +528,32 @@ function validarSec1() {
   };
 
   if (getRadio('P1') === 'No' || getRadio('P2') === 'No' || getRadio('P3') === 'No') {
-    guardarFiltrado('P1-P2-P3');
-    mostrarSeccion('sec-filtro', 100);
-    redirigir(REDIRECT_SCREENED);
-    return;
+    guardarFiltrado('P1-P2-P3'); mostrarSeccion('sec-filtro', 100); redirigir(REDIRECT_SCREENED); return;
   }
   if (getRadio('P5') === 'Si') {
-    guardarFiltrado('P5-plataforma');
-    mostrarSeccion('sec-filtro', 100);
-    redirigir(REDIRECT_SCREENED);
-    return;
+    guardarFiltrado('P5-plataforma'); mostrarSeccion('sec-filtro', 100); redirigir(REDIRECT_SCREENED); return;
   }
   const p4 = getRadio('P4');
   if (p4 === 'Mensual' || p4 === 'Semestral') {
-    guardarFiltrado('P4-mensual-semestral');
-    mostrarSeccion('sec-filtro', 100);
-    redirigir(REDIRECT_SCREENED);
-    return;
+    guardarFiltrado('P4-mensual-semestral'); mostrarSeccion('sec-filtro', 100); redirigir(REDIRECT_SCREENED); return;
   }
 
   esUsuario = (p4 === 'Diario');
   document.getElementById('div-usuarios').style.display    = esUsuario ? 'block' : 'none';
   document.getElementById('div-no-usuarios').style.display = esUsuario ? 'none'  : 'block';
-  document.getElementById('div-P27').style.display         = esUsuario ? 'block' : 'none';
+  // P27 siempre oculto al inicio — se activa en mostrarP7() solo si P6=Si
+  document.getElementById('div-P27').style.display = 'none';
   mostrarSeccion('sec2', 15);
 }
 
 function validarSec2() {
   let ok = true;
+
   if (esUsuario) {
     const p6 = getRadio('P6');
     mostrarAlerta('P6', !p6);
     if (!p6) ok = false;
+
     if (p6 === 'Si') {
       const p7 = document.getElementById('P7').value;
       mostrarAlerta('P7', !p7 || p7 <= 0);
@@ -552,11 +562,19 @@ function validarSec2() {
       mostrarAlerta('P8a', !p8a);
       if (!p8a) ok = false;
     }
+
+    if (p6 === 'No') {
+      const p8bu = getRadio('P8b');
+      const el = document.getElementById('alerta-P8b-usuario');
+      if (el) el.style.display = p8bu ? 'none' : 'block';
+      if (!p8bu) ok = false;
+    }
   } else {
     const p8b = getRadio('P8b');
     mostrarAlerta('P8b', !p8b);
     if (!p8b) ok = false;
   }
+
   if (!ok) return;
   mostrarSeccion('sec3', 30);
 }
@@ -564,9 +582,7 @@ function validarSec2() {
 function validarSec3() {
   let ok = true;
   ['P9','P10','P11','P12','P13'].forEach(p => {
-    const v = getRadio(p);
-    mostrarAlerta(p, !v);
-    if (!v) ok = false;
+    const v = getRadio(p); mostrarAlerta(p, !v); if (!v) ok = false;
   });
   if (!ok) return;
   mostrarSeccion('sec4', 45);
@@ -575,9 +591,7 @@ function validarSec3() {
 function validarSec4() {
   let ok = true;
   ['P14','P15','P16','P17','P18','P19','P20'].forEach(p => {
-    const v = getRadio(p);
-    mostrarAlerta(p, !v);
-    if (!v) ok = false;
+    const v = getRadio(p); mostrarAlerta(p, !v); if (!v) ok = false;
   });
   if (!ok) return;
   mostrarSeccion('sec5', 60);
@@ -586,9 +600,7 @@ function validarSec4() {
 function validarSec5() {
   let ok = true;
   ['P22','P23','P24','P25'].forEach(p => {
-    const v = getRadio(p);
-    mostrarAlerta(p, !v);
-    if (!v) ok = false;
+    const v = getRadio(p); mostrarAlerta(p, !v); if (!v) ok = false;
   });
 
   const t = parseFloat(document.getElementById('P26').value);
@@ -596,7 +608,10 @@ function validarSec5() {
   mostrarAlerta('P26', !tOk);
   if (!tOk) ok = false;
 
-  if (esUsuario) {
+  // esUsuarioExp: usuario activo en los últimos 12 meses (P4=Diario Y P6=Si)
+  esUsuarioExp = esUsuario && getRadio('P6') === 'Si';
+
+  if (esUsuarioExp) {
     const p = parseFloat(document.getElementById('P27').value);
     const pOk = p >= 60000 && p <= 190000;
     mostrarAlerta('P27', !pOk);
@@ -605,7 +620,7 @@ function validarSec5() {
 
   if (!ok) return;
   tiempo_real = t;
-  precio_real = esUsuario ? parseFloat(document.getElementById('P27').value) : 0;
+  precio_real = esUsuarioExp ? parseFloat(document.getElementById('P27').value) : 0;
   generarEscenarios();
   mostrarSeccion('sec6a', 75);
 }
@@ -616,7 +631,12 @@ function formatCOP(n) { return '$' + Math.round(n).toLocaleString('es-CO'); }
 function generarTarjeta(i) {
   const [nP, nT, nC, nTT, nTP] = DISENO[i];
   const ctRef = calcularCostoTaxiRef(tiempo_real);
-  const precio_pyps = esUsuario ? Math.round(precio_real * nivel(nP)) : PRECIOS_NO_USUARIO[nP - 1];
+
+  // Precio PyPS: pivotado para usuarios activos, fijo para todos los demás
+  const precio_pyps = esUsuarioExp
+    ? Math.round(precio_real * nivel(nP))
+    : PRECIOS_NO_USUARIO[nP - 1];
+
   const t_pyps = Math.round(tiempo_real * nivel(nT));
   const t_taxi = Math.round(tiempo_real * FACTOR_TAXI * nivel(nTT));
   const t_tp   = Math.round(tiempo_real * FACTOR_TP * nivel(nTP));
@@ -686,18 +706,24 @@ function enviarDatos() {
   const p25v = p25b === 'Otro' ? 'Otro: ' + document.getElementById('P25-otro').value : p25b || '';
 
   const p8bb = getRadio('P8b');
-  const p8bv = p8bb === 'Otra' ? 'Otra: ' + document.getElementById('P8b-otro').value : p8bb || '';
+  let p8bv = '';
+  if (!esUsuario) {
+    p8bv = p8bb === 'Otra' ? 'Otra: ' + (document.getElementById('P8b-otro')?.value || '') : p8bb || '';
+  } else if (getRadio('P6') === 'No') {
+    p8bv = p8bb === 'Otra' ? 'Otra: ' + (document.getElementById('P8b-otro-u')?.value || '') : p8bb || '';
+  }
 
   const datos = {
     id_encuesta: generarIdEncuesta(),
     owid: OWID,
     completo: 'Si',
+    es_usuario_exp: esUsuarioExp ? 'Si' : 'No',
     P1: getRadio('P1'), P2: getRadio('P2'), P3: getRadio('P3'),
     P4: getRadio('P4'), P5: getRadio('P5'),
     P6:  esUsuario ? (getRadio('P6')  || '') : '',
     P7:  esUsuario ? (document.getElementById('P7').value || '') : '',
     P8a: esUsuario ? (getRadio('P8a') || '') : '',
-    P8b: esUsuario ? '' : p8bv,
+    P8b: p8bv,
     P9: getRadio('P9'), P10: getRadio('P10'), P11: getRadio('P11'),
     P12: getRadio('P12'), P13: getRadio('P13'),
     P14: p14v, P15: getRadio('P15'), P16: getRadio('P16'),
@@ -705,7 +731,7 @@ function enviarDatos() {
     P21: p21, P22: getRadio('P22'), P23: getRadio('P23'),
     P24: getRadio('P24'), P25: p25v,
     P26_tiempo_min:  tiempo_real,
-    P27_precio_pyps: esUsuario ? precio_real : '',
+    P27_precio_pyps: esUsuarioExp ? precio_real : '',
     costo_taxi_ref:  calcularCostoTaxiRef(tiempo_real),
     E1: getRadio('E1'), E2: getRadio('E2'), E3: getRadio('E3'),
     E4: getRadio('E4'), E5: getRadio('E5'), E6: getRadio('E6'),
