@@ -47,6 +47,7 @@
   .fin-mensaje h2 { color: #003366; font-size: 1.4em; margin-bottom: 15px; }
   .nota { font-size: 0.85em; color: #666; font-style: italic; margin-top: 5px; }
   .nota-escenario { font-size: 0.82em; color: #666; background: #f9f9f9; border-left: 3px solid #F5A800; padding: 8px 12px; border-radius: 4px; margin-bottom: 15px; }
+  .nota-atencion { font-size: 0.85em; color: #533f03; background: #fff3cd; border-left: 3px solid #856404; padding: 10px 12px; border-radius: 4px; margin-bottom: 15px; }
   .banner { padding: 8px 15px; border-radius: 5px; font-size: 0.85em; margin-bottom: 15px; text-align: center; }
   .banner-prueba { background: #fff3cd; border: 1px solid #F5A800; }
   .intro-experimento { margin-bottom: 15px; line-height: 1.7; background: #f9f9f9; padding: 12px; border-radius: 8px; border-left: 4px solid #F5A800; font-style: italic; }
@@ -337,12 +338,15 @@
       </label>
       <span class="alerta" id="alerta-P25">Por favor seleccione una opción</span>
     </div>
+
+    <!-- CAMBIO 1: Nueva redacción P26 -->
     <div class="pregunta">
-      <p><span class="numero-pregunta" data-key="P26"></span> ¿Cuánto tiempo tardó aproximadamente su último viaje en vehículo particular?</p>
-      <p class="nota">Ingrese el tiempo en minutos. Use solo números enteros, sin puntos ni comas.</p>
+      <p><span class="numero-pregunta" data-key="P26"></span> ¿Cuánto tiempo tardó aproximadamente su último viaje habitual en vehículo particular en Bogotá?</p>
+      <p class="nota">Piense en su último viaje al trabajo, al colegio o a hacer diligencias. Use solo números enteros en minutos, sin puntos ni comas.</p>
       <input type="number" id="P26" placeholder="Ejemplo: 45" min="5" max="300" step="1" inputmode="numeric" oninput="soloEnteros(this)">
       <span class="alerta" id="alerta-P26">Por favor ingrese un tiempo válido (entre 5 y 300 minutos)</span>
     </div>
+
     <div class="pregunta" id="div-P27" style="display:none">
       <p><span class="numero-pregunta" data-key="P27"></span> ¿Cuánto pagó la última vez que adquirió un permiso del Pico y Placa Solidario (PyPS)?</p>
       <p class="nota">Ingrese el valor en pesos colombianos (COP), sin puntos ni comas.</p>
@@ -353,10 +357,12 @@
     <button class="btn-atras" onclick="mostrarSeccion('sec4', 45)">← Atrás</button>
   </div>
 
+  <!-- CAMBIO 2: Texto de advertencia en los tres bloques de escenarios -->
   <div class="seccion" id="sec6a">
     <h2>Sección 6: Experimento de elección</h2>
     <p class="intro-experimento">Piense en el último viaje que realizó en su vehículo particular. Ahora suponga que mañana debe realizar ese mismo viaje, pero ese día tiene restricción de Pico y Placa. Dado que usted va a realizar el viaje de todas formas, ¿cuál de las siguientes opciones elegiría?</p>
     <p class="nota-escenario"><strong>Nota:</strong> La alternativa Taxi / Uber incluye todas las aplicaciones de transporte: Uber, Didi, Cabify, InDriver, Yango y similares.</p>
+    <p class="nota-atencion"><strong>Atención:</strong> los precios y tiempos cambian en cada escenario. Por favor léalos con atención antes de responder.</p>
     <div id="escenarios-1-3"></div>
     <button class="btn" onclick="validarBloque(1)">Continuar -></button>
     <button class="btn-atras" onclick="mostrarSeccion('sec5', 60)">← Atrás</button>
@@ -366,6 +372,7 @@
     <h2>Sección 6: Experimento de elección</h2>
     <p class="intro-experimento">Piense en el último viaje que realizó en su vehículo particular. Ahora suponga que mañana debe realizar ese mismo viaje, pero ese día tiene restricción de Pico y Placa. Dado que usted va a realizar el viaje de todas formas, ¿cuál de las siguientes opciones elegiría?</p>
     <p class="nota-escenario"><strong>Nota:</strong> La alternativa Taxi / Uber incluye todas las aplicaciones de transporte: Uber, Didi, Cabify, InDriver, Yango y similares.</p>
+    <p class="nota-atencion"><strong>Atención:</strong> los precios y tiempos cambian en cada escenario. Por favor léalos con atención antes de responder.</p>
     <div id="escenarios-4-6"></div>
     <button class="btn" onclick="validarBloque(2)">Continuar -></button>
     <button class="btn-atras" onclick="mostrarSeccion('sec6a', 75)">← Atrás</button>
@@ -375,6 +382,7 @@
     <h2>Sección 6: Experimento de elección</h2>
     <p class="intro-experimento">Piense en el último viaje que realizó en su vehículo particular. Ahora suponga que mañana debe realizar ese mismo viaje, pero ese día tiene restricción de Pico y Placa. Dado que usted va a realizar el viaje de todas formas, ¿cuál de las siguientes opciones elegiría?</p>
     <p class="nota-escenario"><strong>Nota:</strong> La alternativa Taxi / Uber incluye todas las aplicaciones de transporte: Uber, Didi, Cabify, InDriver, Yango y similares.</p>
+    <p class="nota-atencion"><strong>Atención:</strong> los precios y tiempos cambian en cada escenario. Por favor léalos con atención antes de responder.</p>
     <div id="escenarios-7-9"></div>
     <button class="btn" id="btn-enviar" onclick="validarBloque(3)">Enviar encuesta</button>
     <button class="btn-atras" onclick="mostrarSeccion('sec6b', 83)">← Atrás</button>
@@ -389,12 +397,12 @@
 
 </div>
 <script>
-const MODO_PRUEBA = false;
+const MODO_PRUEBA = true;
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdE7n67JnyPz8bWHVVvSwINw2gutvFmy-imzmk06ii1otA_ngrt19OLa_LDNyLpKGa/exec";
 const REDIRECT_COMPLETE  = "https://www.surveytaking.com/processsurvey.php?status=complete&owid=";
 const REDIRECT_SCREENED  = "https://www.surveytaking.com/processsurvey.php?status=screened&owid=";
 const REDIRECT_QUOTAFULL = "https://www.surveytaking.com/processsurvey.php?status=quotafull&owid=";
-const META_USUARIOS = 150;
+const META_USUARIOS    = 150;
 const META_NO_USUARIOS = 150;
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -407,8 +415,8 @@ const DISENO = [
 ];
 
 const FACTOR_TAXI = 44 / 51;
-const FACTOR_TP = 80 / 51;
-const COSTO_TP = 3550;
+const FACTOR_TP   = 80 / 51;
+const COSTO_TP    = 3550;
 const PRECIOS_NO_USUARIO = [42200, 56200, 70300];
 
 const ETIQUETAS_LIKERT = [
@@ -427,10 +435,10 @@ const ORDEN_PREGUNTAS = [
   "P21","P22","P23","P24","P25","P26","P27"
 ];
 
-let esUsuario = false;
+let esUsuario    = false;
 let esUsuarioExp = false;
-let tiempo_real = 0;
-let precio_real = 0;
+let tiempo_real  = 0;
+let precio_real  = 0;
 let datosFiltroParcial = {};
 let cuotasActuales = { usuarios: 0, no_usuarios: 0 };
 
@@ -502,20 +510,13 @@ function soloEnteros(input) {
 
 function debeContarPregunta(key) {
   switch (key) {
-    case "Q6_usuario":
-      return esUsuario;
-    case "Q7_usuario":
-      return esUsuario && getRadio("P6") === "Si";
-    case "Q8_usuario":
-      return esUsuario && getRadio("P6") === "Si";
-    case "Q7_no_uso_usuario":
-      return esUsuario && getRadio("P6") === "No";
-    case "Q6_no_usuario":
-      return !esUsuario;
-    case "P27":
-      return esUsuario && getRadio("P6") === "Si";
-    default:
-      return true;
+    case "Q6_usuario":        return esUsuario;
+    case "Q7_usuario":        return esUsuario && getRadio("P6") === "Si";
+    case "Q8_usuario":        return esUsuario && getRadio("P6") === "Si";
+    case "Q7_no_uso_usuario": return esUsuario && getRadio("P6") === "No";
+    case "Q6_no_usuario":     return !esUsuario;
+    case "P27":               return esUsuario && getRadio("P6") === "Si";
+    default:                  return true;
   }
 }
 
@@ -544,14 +545,8 @@ function mostrarP7() {
 function manejarP8bOtro(radio) {
   const campoU = document.getElementById("P8b-otro-u");
   const campoN = document.getElementById("P8b-otro");
-  if (campoU) {
-    campoU.disabled = (radio.value !== "Otra");
-    if (radio.value !== "Otra") campoU.value = "";
-  }
-  if (campoN) {
-    campoN.disabled = (radio.value !== "Otra");
-    if (radio.value !== "Otra") campoN.value = "";
-  }
+  if (campoU) { campoU.disabled = (radio.value !== "Otra"); if (radio.value !== "Otra") campoU.value = ""; }
+  if (campoN) { campoN.disabled = (radio.value !== "Otra"); if (radio.value !== "Otra") campoN.value = ""; }
 }
 
 function manejarP14(radio) {
@@ -560,7 +555,7 @@ function manejarP14(radio) {
   document.getElementById("P14-cund").value = "";
   document.getElementById("P14-otro").value = "";
   if (radio.value === "Cundinamarca") document.getElementById("P14-cund").disabled = false;
-  if (radio.value === "Otro") document.getElementById("P14-otro").disabled = false;
+  if (radio.value === "Otro")         document.getElementById("P14-otro").disabled = false;
 }
 
 function manejarP25(radio) {
@@ -598,50 +593,30 @@ function validarSec1() {
   if (!ok) return;
 
   datosFiltroParcial = {
-    P1: getRadio("P1"),
-    P2: getRadio("P2"),
-    P3: getRadio("P3"),
-    P4: getRadio("P4"),
-    P5: getRadio("P5")
+    P1: getRadio("P1"), P2: getRadio("P2"), P3: getRadio("P3"),
+    P4: getRadio("P4"), P5: getRadio("P5")
   };
 
   if (getRadio("P1") === "No" || getRadio("P2") === "No" || getRadio("P3") === "No") {
-    guardarFiltrado("P1-P2-P3");
-    mostrarSeccion("sec-filtro", 100);
-    redirigir(REDIRECT_SCREENED);
-    return;
+    guardarFiltrado("P1-P2-P3"); mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_SCREENED); return;
   }
   if (getRadio("P5") === "Si") {
-    guardarFiltrado("P5-plataforma");
-    mostrarSeccion("sec-filtro", 100);
-    redirigir(REDIRECT_SCREENED);
-    return;
+    guardarFiltrado("P5-plataforma"); mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_SCREENED); return;
   }
   const p4 = getRadio("P4");
   if (p4 === "Mensual" || p4 === "Semestral") {
-    guardarFiltrado("P4-mensual-semestral");
-    mostrarSeccion("sec-filtro", 100);
-    redirigir(REDIRECT_SCREENED);
-    return;
+    guardarFiltrado("P4-mensual-semestral"); mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_SCREENED); return;
   }
 
   esUsuario = (p4 === "Diario");
 
   if (!MODO_PRUEBA) {
-    if (esUsuario && cuotasActuales.usuarios >= META_USUARIOS) {
-      mostrarSeccion("sec-filtro", 100);
-      redirigir(REDIRECT_QUOTAFULL);
-      return;
-    }
-    if (!esUsuario && cuotasActuales.no_usuarios >= META_NO_USUARIOS) {
-      mostrarSeccion("sec-filtro", 100);
-      redirigir(REDIRECT_QUOTAFULL);
-      return;
-    }
+    if (esUsuario  && cuotasActuales.usuarios    >= META_USUARIOS)    { mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_QUOTAFULL); return; }
+    if (!esUsuario && cuotasActuales.no_usuarios >= META_NO_USUARIOS) { mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_QUOTAFULL); return; }
   }
 
-  document.getElementById("div-usuarios").style.display = esUsuario ? "block" : "none";
-  document.getElementById("div-no-usuarios").style.display = esUsuario ? "none" : "block";
+  document.getElementById("div-usuarios").style.display    = esUsuario ? "block" : "none";
+  document.getElementById("div-no-usuarios").style.display = esUsuario ? "none"  : "block";
   document.getElementById("div-P27").style.display = "none";
   actualizarNumeracion();
   mostrarSeccion("sec2", 15);
@@ -739,10 +714,10 @@ function generarTarjeta(i) {
   const [nP, nT, nC, nTT, nTP] = DISENO[i];
   const ctRef = calcularCostoTaxiRef(tiempo_real);
   const precio_pyps = esUsuarioExp ? Math.round(precio_real * nivel(nP)) : PRECIOS_NO_USUARIO[nP - 1];
-  const t_pyps = Math.round(tiempo_real * nivel(nT));
-  const t_taxi = Math.round(tiempo_real * FACTOR_TAXI * nivel(nTT));
-  const t_tp = Math.round(tiempo_real * FACTOR_TP * nivel(nTP));
-  const c_taxi = Math.round(ctRef * nivel(nC));
+  const t_pyps  = Math.round(tiempo_real * nivel(nT));
+  const c_taxi  = Math.round(ctRef * nivel(nC));
+  const t_taxi  = Math.round(tiempo_real * FACTOR_TAXI * nivel(nTT));
+  const t_tp    = Math.round(tiempo_real * FACTOR_TP   * nivel(nTP));
 
   return `
     <div class="escenario-box">
@@ -770,15 +745,15 @@ function generarTarjeta(i) {
 }
 
 function generarEscenarios() {
-  document.getElementById("escenarios-1-3").innerHTML = [0, 1, 2].map(generarTarjeta).join("");
-  document.getElementById("escenarios-4-6").innerHTML = [3, 4, 5].map(generarTarjeta).join("");
-  document.getElementById("escenarios-7-9").innerHTML = [6, 7, 8].map(generarTarjeta).join("");
+  document.getElementById("escenarios-1-3").innerHTML = [0,1,2].map(generarTarjeta).join("");
+  document.getElementById("escenarios-4-6").innerHTML = [3,4,5].map(generarTarjeta).join("");
+  document.getElementById("escenarios-7-9").innerHTML = [6,7,8].map(generarTarjeta).join("");
 }
 
 function validarBloque(bloque) {
-  const rangos = { 1: [1, 2, 3], 2: [4, 5, 6], 3: [7, 8, 9] };
-  const sigs = { 1: "sec6b", 2: "sec6c" };
-  const pcts = { 1: 83, 2: 91 };
+  const rangos = { 1:[1,2,3], 2:[4,5,6], 3:[7,8,9] };
+  const sigs   = { 1:"sec6b", 2:"sec6c" };
+  const pcts   = { 1:83, 2:91 };
   let ok = true;
   rangos[bloque].forEach(i => {
     const v = getRadio("E" + i);
@@ -796,84 +771,50 @@ function enviarDatos() {
   btn.textContent = "Enviando...";
 
   const p21 = Array.from(document.querySelectorAll('input[name="P21"]:checked')).map(e => e.value).join(", ") || "Ninguno";
-
   const p14b = getRadio("P14");
   let p14v = p14b || "";
   if (p14b === "Cundinamarca") p14v = "Cundinamarca: " + document.getElementById("P14-cund").value;
-  if (p14b === "Otro") p14v = "Otro: " + document.getElementById("P14-otro").value;
-
+  if (p14b === "Otro")         p14v = "Otro: "         + document.getElementById("P14-otro").value;
   const p19b = getRadio("P19");
   const p19v = p19b === "Otro" ? "Otro: " + document.getElementById("P19-otro").value : p19b || "";
-
   const p25b = getRadio("P25");
   const p25v = p25b === "Otro" ? "Otro: " + document.getElementById("P25-otro").value : p25b || "";
-
   const p8bb = getRadio("P8b");
   let p8bv = "";
-  if (!esUsuario) {
-    p8bv = p8bb === "Otra" ? "Otra: " + (document.getElementById("P8b-otro")?.value || "") : p8bb || "";
-  } else if (getRadio("P6") === "No") {
-    p8bv = p8bb === "Otra" ? "Otra: " + (document.getElementById("P8b-otro-u")?.value || "") : p8bb || "";
-  }
+  if (!esUsuario)                   p8bv = p8bb === "Otra" ? "Otra: " + (document.getElementById("P8b-otro")?.value   || "") : p8bb || "";
+  else if (getRadio("P6") === "No") p8bv = p8bb === "Otra" ? "Otra: " + (document.getElementById("P8b-otro-u")?.value || "") : p8bb || "";
 
   const datos = {
-    id_encuesta: generarIdEncuesta(),
-    owid: OWID,
-    completo: "Si",
+    id_encuesta:    generarIdEncuesta(),
+    owid:           OWID,
+    completo:       "Si",
     es_usuario_exp: esUsuarioExp ? "Si" : "No",
-    P1: getRadio("P1"),
-    P2: getRadio("P2"),
-    P3: getRadio("P3"),
-    P4: getRadio("P4"),
-    P5: getRadio("P5"),
-    P6: esUsuario ? (getRadio("P6") || "") : "",
-    P7: esUsuario ? (document.getElementById("P7").value || "") : "",
+    P1: getRadio("P1"), P2: getRadio("P2"), P3: getRadio("P3"),
+    P4: getRadio("P4"), P5: getRadio("P5"),
+    P6:  esUsuario ? (getRadio("P6") || "") : "",
+    P7:  esUsuario ? (document.getElementById("P7").value || "") : "",
     P8a: esUsuario ? (getRadio("P8a") || "") : "",
     P8b: p8bv,
-    P9a: getRadio("P9a"),
-    P9b: getRadio("P9b"),
-    P9c: getRadio("P9c"),
-    P10: getRadio("P10"),
-    P11: getRadio("P11"),
-    P12a: getRadio("P12a"),
-    P12b: getRadio("P12b"),
-    P12c: getRadio("P12c"),
+    P9a: getRadio("P9a"), P9b: getRadio("P9b"), P9c: getRadio("P9c"),
+    P10: getRadio("P10"), P11: getRadio("P11"),
+    P12a: getRadio("P12a"), P12b: getRadio("P12b"), P12c: getRadio("P12c"),
     P13: getRadio("P13"),
-    P14: p14v,
-    P15: getRadio("P15"),
-    P16: getRadio("P16"),
-    P17: getRadio("P17"),
-    P18: getRadio("P18"),
-    P19: p19v,
-    P20: getRadio("P20"),
-    P21: p21,
-    P22: getRadio("P22"),
-    P23: getRadio("P23"),
-    P24: getRadio("P24"),
-    P25: p25v,
-    P26_tiempo_min: tiempo_real,
+    P14: p14v, P15: getRadio("P15"), P16: getRadio("P16"),
+    P17: getRadio("P17"), P18: getRadio("P18"), P19: p19v,
+    P20: getRadio("P20"), P21: p21,
+    P22: getRadio("P22"), P23: getRadio("P23"),
+    P24: getRadio("P24"), P25: p25v,
+    P26_tiempo_min:  tiempo_real,
     P27_precio_pyps: esUsuarioExp ? precio_real : "",
-    costo_taxi_ref: calcularCostoTaxiRef(tiempo_real),
-    E1: getRadio("E1"),
-    E2: getRadio("E2"),
-    E3: getRadio("E3"),
-    E4: getRadio("E4"),
-    E5: getRadio("E5"),
-    E6: getRadio("E6"),
-    E7: getRadio("E7"),
-    E8: getRadio("E8"),
-    E9: getRadio("E9")
+    costo_taxi_ref:  calcularCostoTaxiRef(tiempo_real),
+    E1: getRadio("E1"), E2: getRadio("E2"), E3: getRadio("E3"),
+    E4: getRadio("E4"), E5: getRadio("E5"), E6: getRadio("E6"),
+    E7: getRadio("E7"), E8: getRadio("E8"), E9: getRadio("E9")
   };
 
   fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: JSON.stringify(datos) })
-    .then(() => {
-      mostrarSeccion("sec-fin", 100);
-      setTimeout(() => redirigir(REDIRECT_COMPLETE), 3000);
-    })
-    .catch(() => {
-      mostrarSeccion("sec-fin", 100);
-      setTimeout(() => redirigir(REDIRECT_COMPLETE), 3000);
-    });
+    .then(() => { mostrarSeccion("sec-fin", 100); setTimeout(() => redirigir(REDIRECT_COMPLETE), 3000); })
+    .catch(() => { mostrarSeccion("sec-fin", 100); setTimeout(() => redirigir(REDIRECT_COMPLETE), 3000); });
 }
 
 init();
