@@ -88,6 +88,12 @@
       <label class="opcion"><input type="radio" name="P3" value="No"> No</label>
       <span class="alerta" id="alerta-P3">Por favor seleccione una opción</span>
     </div>
+
+    <!-- NUEVO: Descripción PyPS antes de P4 -->
+    <p style="margin-bottom:15px; line-height:1.7; background:#f9f9f9; padding:12px; border-radius:8px; border-left:4px solid #F5A800;">
+      El Pico y Placa Solidario (PyPS) es un programa del Distrito que permite a los conductores circular en Bogotá durante sus días de restricción de Pico y Placa, mediante el pago de un permiso.
+    </p>
+
     <div class="pregunta">
       <p><span class="numero-pregunta" data-key="P4"></span> ¿Ha adquirido alguna vez un permiso <strong>DIARIO</strong> del Pico y Placa Solidario (PyPS)?</p>
       <label class="opcion"><input type="radio" name="P4" value="Diario"> Sí</label>
@@ -174,7 +180,6 @@
     <h2>Sección 3: Percepción y aceptación del programa PyPS</h2>
     <p class="intro-seccion">La siguiente sección tiene como propósito comprender mejor su percepción frente al programa PyPS, el cual contempla tarifas diarias que oscilan entre $70.000 y $190.000 pesos, dependiendo del municipio de matrícula del vehículo y de factores monetarios y ambientales.</p>
     <p style="margin-bottom:15px"><em>Escala 1-5: 1 = Totalmente en desacuerdo, 5 = Totalmente de acuerdo.</em></p>
-
     <div class="pregunta">
       <p><span class="numero-pregunta" data-key="P9b"></span> El PyPS beneficia principalmente a personas de altos ingresos, ya que son quienes pueden pagar el permiso.</p>
       <div class="escala" id="escala-P9b"></div>
@@ -221,7 +226,6 @@
       <div class="escala" id="escala-P_sabados"></div>
       <span class="alerta" id="alerta-P_sabados">Por favor seleccione una opción</span>
     </div>
-
     <button class="btn" onclick="validarSec3()">Continuar -></button>
     <button class="btn-atras" onclick="mostrarSeccion('sec2', 15)">← Atrás</button>
   </div>
@@ -477,7 +481,6 @@ function crearEscalas() {
       div.appendChild(lbl);
     });
   });
-  // Escala probabilidad para P_sabados
   const divSab = document.getElementById("escala-P_sabados");
   if (divSab) {
     ETIQUETAS_PROBABILIDAD.forEach((et, i) => {
@@ -689,6 +692,9 @@ function validarSec4() {
 }
 
 function validarSec5() {
+  // CORRECCIÓN: asegurar que div-P27 sea visible si esUsuarioExp es true
+  if (esUsuarioExp) document.getElementById("div-P27").style.display = "block";
+
   let ok = true;
   ["P22","P23","P24","P25"].forEach(p => {
     const v = getRadio(p);
@@ -704,6 +710,7 @@ function validarSec5() {
   esUsuarioExp = esUsuario && getRadio("P6") === "Si";
 
   if (esUsuarioExp) {
+    document.getElementById("div-P27").style.display = "block";
     const p = parseFloat(document.getElementById("P27").value);
     const pOk = p >= 60000 && p <= 190000;
     mostrarAlerta("P27", !pOk);
