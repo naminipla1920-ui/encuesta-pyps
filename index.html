@@ -171,14 +171,10 @@
   </div>
 
   <div class="seccion" id="sec3">
-    <h2>Sección 3: Aceptación del programa Pico y Placa Solidario (PyPS)</h2>
+    <h2>Sección 3: Percepción y aceptación del programa PyPS</h2>
     <p class="intro-seccion">La siguiente sección tiene como propósito comprender mejor su percepción frente al programa PyPS, el cual contempla tarifas diarias que oscilan entre $70.000 y $190.000 pesos, dependiendo del municipio de matrícula del vehículo y de factores monetarios y ambientales.</p>
     <p style="margin-bottom:15px"><em>Escala 1-5: 1 = Totalmente en desacuerdo, 5 = Totalmente de acuerdo.</em></p>
-    <div class="pregunta">
-      <p><span class="numero-pregunta" data-key="P9a"></span> El PyPS es una medida justa porque permite circular a quienes más lo necesitan, independientemente de su ingreso.</p>
-      <div class="escala" id="escala-P9a"></div>
-      <span class="alerta" id="alerta-P9a">Por favor seleccione una opción</span>
-    </div>
+
     <div class="pregunta">
       <p><span class="numero-pregunta" data-key="P9b"></span> El PyPS beneficia principalmente a personas de altos ingresos, ya que son quienes pueden pagar el permiso.</p>
       <div class="escala" id="escala-P9b"></div>
@@ -219,6 +215,13 @@
       <div class="escala" id="escala-P13"></div>
       <span class="alerta" id="alerta-P13">Por favor seleccione una opción</span>
     </div>
+    <div class="pregunta">
+      <p><span class="numero-pregunta" data-key="P_sabados"></span> Si el Pico y Placa se extendiera a los sábados, ¿qué tan probable es que adquiriera un permiso PyPS?</p>
+      <p style="font-weight:normal; font-style:italic; font-size:0.9em; margin-bottom:5px">Escala 1-5: 1 = Muy improbable, 5 = Muy probable</p>
+      <div class="escala" id="escala-P_sabados"></div>
+      <span class="alerta" id="alerta-P_sabados">Por favor seleccione una opción</span>
+    </div>
+
     <button class="btn" onclick="validarSec3()">Continuar -></button>
     <button class="btn-atras" onclick="mostrarSeccion('sec2', 15)">← Atrás</button>
   </div>
@@ -338,15 +341,12 @@
       </label>
       <span class="alerta" id="alerta-P25">Por favor seleccione una opción</span>
     </div>
-
-    <!-- CAMBIO 1: Nueva redacción P26 -->
     <div class="pregunta">
-      <p><span class="numero-pregunta" data-key="P26"></span> ¿Cuánto tiempo tardó aproximadamente su último viaje habitual en vehículo particular en Bogotá?</p>
-      <p class="nota">Piense en su último viaje al trabajo, al colegio o a hacer diligencias. Use solo números enteros en minutos, sin puntos ni comas.</p>
+      <p><span class="numero-pregunta" data-key="P26"></span> ¿Cuánto tiempo tardó su último viaje en vehículo particular en Bogotá?</p>
+      <p class="nota">Ingrese el tiempo en minutos. Use solo números enteros, sin puntos ni comas.</p>
       <input type="number" id="P26" placeholder="Ejemplo: 45" min="5" max="300" step="1" inputmode="numeric" oninput="soloEnteros(this)">
       <span class="alerta" id="alerta-P26">Por favor ingrese un tiempo válido (entre 5 y 300 minutos)</span>
     </div>
-
     <div class="pregunta" id="div-P27" style="display:none">
       <p><span class="numero-pregunta" data-key="P27"></span> ¿Cuánto pagó la última vez que adquirió un permiso del Pico y Placa Solidario (PyPS)?</p>
       <p class="nota">Ingrese el valor en pesos colombianos (COP), sin puntos ni comas.</p>
@@ -357,12 +357,10 @@
     <button class="btn-atras" onclick="mostrarSeccion('sec4', 45)">← Atrás</button>
   </div>
 
-  <!-- CAMBIO 2: Texto de advertencia en los tres bloques de escenarios -->
   <div class="seccion" id="sec6a">
     <h2>Sección 6: Experimento de elección</h2>
     <p class="intro-experimento">Piense en el último viaje que realizó en su vehículo particular. Ahora suponga que mañana debe realizar ese mismo viaje, pero ese día tiene restricción de Pico y Placa. Dado que usted va a realizar el viaje de todas formas, ¿cuál de las siguientes opciones elegiría?</p>
     <p class="nota-escenario"><strong>Nota:</strong> La alternativa Taxi / Uber incluye todas las aplicaciones de transporte: Uber, Didi, Cabify, InDriver, Yango y similares.</p>
-    <p class="nota-atencion"><strong>Atención:</strong> los precios y tiempos cambian en cada escenario. Por favor léalos con atención antes de responder.</p>
     <div id="escenarios-1-3"></div>
     <button class="btn" onclick="validarBloque(1)">Continuar -></button>
     <button class="btn-atras" onclick="mostrarSeccion('sec5', 60)">← Atrás</button>
@@ -397,13 +395,13 @@
 
 </div>
 <script>
-const MODO_PRUEBA = false;
+const MODO_PRUEBA = true;
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdE7n67JnyPz8bWHVVvSwINw2gutvFmy-imzmk06ii1otA_ngrt19OLa_LDNyLpKGa/exec";
 const REDIRECT_COMPLETE  = "https://www.surveytaking.com/processsurvey.php?status=complete&owid=";
 const REDIRECT_SCREENED  = "https://www.surveytaking.com/processsurvey.php?status=screened&owid=";
 const REDIRECT_QUOTAFULL = "https://www.surveytaking.com/processsurvey.php?status=quotafull&owid=";
-const META_USUARIOS    = 150;
-const META_NO_USUARIOS = 150;
+const META_USUARIOS    = 120;
+const META_NO_USUARIOS = 180;
 
 const urlParams = new URLSearchParams(window.location.search);
 const OWID = urlParams.get("owid") || "";
@@ -427,10 +425,18 @@ const ETIQUETAS_LIKERT = [
   "Totalmente<br>de acuerdo"
 ];
 
+const ETIQUETAS_PROBABILIDAD = [
+  "Muy<br>improbable",
+  "Improbable",
+  "Ni probable<br>ni improbable",
+  "Probable",
+  "Muy<br>probable"
+];
+
 const ORDEN_PREGUNTAS = [
   "P1","P2","P3","P4","P5",
   "Q6_usuario","Q7_usuario","Q8_usuario","Q7_no_uso_usuario","Q6_no_usuario",
-  "P9a","P9b","P9c","P10","P11","P12a","P12b","P12c","P13",
+  "P9b","P9c","P10","P11","P12a","P12b","P12c","P13","P_sabados",
   "P14","P15","P16","P17","P18","P19","P20",
   "P21","P22","P23","P24","P25","P26","P27"
 ];
@@ -462,7 +468,7 @@ function calcularCostoTaxiRef(t) {
 }
 
 function crearEscalas() {
-  ["P9a","P9b","P9c","P10","P11","P12a","P12b","P12c","P13"].forEach(p => {
+  ["P9b","P9c","P10","P11","P12a","P12b","P12c","P13"].forEach(p => {
     const div = document.getElementById("escala-" + p);
     if (!div) return;
     ETIQUETAS_LIKERT.forEach((et, i) => {
@@ -471,6 +477,15 @@ function crearEscalas() {
       div.appendChild(lbl);
     });
   });
+  // Escala probabilidad para P_sabados
+  const divSab = document.getElementById("escala-P_sabados");
+  if (divSab) {
+    ETIQUETAS_PROBABILIDAD.forEach((et, i) => {
+      const lbl = document.createElement("label");
+      lbl.innerHTML = `<input type="radio" name="P_sabados" value="${i + 1}"> ${et}`;
+      divSab.appendChild(lbl);
+    });
+  }
 }
 
 function actualizarProgreso(pct) {
@@ -653,7 +668,7 @@ function validarSec2() {
 
 function validarSec3() {
   let ok = true;
-  ["P9a","P9b","P9c","P10","P11","P12a","P12b","P12c","P13"].forEach(p => {
+  ["P9b","P9c","P10","P11","P12a","P12b","P12c","P13","P_sabados"].forEach(p => {
     const v = getRadio(p);
     mostrarAlerta(p, !v);
     if (!v) ok = false;
@@ -795,10 +810,11 @@ function enviarDatos() {
     P7:  esUsuario ? (document.getElementById("P7").value || "") : "",
     P8a: esUsuario ? (getRadio("P8a") || "") : "",
     P8b: p8bv,
-    P9a: getRadio("P9a"), P9b: getRadio("P9b"), P9c: getRadio("P9c"),
+    P9b: getRadio("P9b"), P9c: getRadio("P9c"),
     P10: getRadio("P10"), P11: getRadio("P11"),
     P12a: getRadio("P12a"), P12b: getRadio("P12b"), P12c: getRadio("P12c"),
     P13: getRadio("P13"),
+    P_sabados: getRadio("P_sabados"),
     P14: p14v, P15: getRadio("P15"), P16: getRadio("P16"),
     P17: getRadio("P17"), P18: getRadio("P18"), P19: p19v,
     P20: getRadio("P20"), P21: p21,
