@@ -89,7 +89,6 @@
       <span class="alerta" id="alerta-P3">Por favor seleccione una opción</span>
     </div>
 
-    <!-- NUEVO: Descripción PyPS antes de P4 -->
     <p style="margin-bottom:15px; line-height:1.7; background:#f9f9f9; padding:12px; border-radius:8px; border-left:4px solid #F5A800;">
       El Pico y Placa Solidario (PyPS) es un programa del Distrito que permite a los conductores circular en Bogotá durante sus días de restricción de Pico y Placa, mediante el pago de un permiso.
     </p>
@@ -404,8 +403,19 @@ const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdE7n67JnyPz
 const REDIRECT_COMPLETE  = "https://www.surveytaking.com/processsurvey.php?status=complete&owid=";
 const REDIRECT_SCREENED  = "https://www.surveytaking.com/processsurvey.php?status=screened&owid=";
 const REDIRECT_QUOTAFULL = "https://www.surveytaking.com/processsurvey.php?status=quotafull&owid=";
+
+// Cuotas de usuarios / no usuarios
 const META_USUARIOS    = 120;
 const META_NO_USUARIOS = 180;
+
+// Cuotas de género
+const META_MUJERES = 96;
+const META_HOMBRES = 204;
+
+// Cuotas de NSE
+const META_ESTRATO_BAJO = 66;
+const META_ESTRATO_MED  = 159;
+const META_ESTRATO_ALTO = 75;
 
 const urlParams = new URLSearchParams(window.location.search);
 const OWID = urlParams.get("owid") || "";
@@ -450,7 +460,11 @@ let esUsuarioExp = false;
 let tiempo_real  = 0;
 let precio_real  = 0;
 let datosFiltroParcial = {};
-let cuotasActuales = { usuarios: 0, no_usuarios: 0 };
+let cuotasActuales = {
+  usuarios: 0, no_usuarios: 0,
+  mujeres: 0, hombres: 0,
+  estrato_bajo: 0, estrato_medio: 0, estrato_alto: 0
+};
 
 function init() {
   crearEscalas();
@@ -464,7 +478,7 @@ function verificarCuotas() {
   fetch(GOOGLE_SCRIPT_URL)
     .then(r => r.json())
     .then(data => { cuotasActuales = data; })
-    .catch(() => { cuotasActuales = { usuarios: 0, no_usuarios: 0 }; });
+    .catch(() => {});
 }
 
 function calcularCostoTaxiRef(t) {
@@ -601,6 +615,12 @@ function guardarFiltrado(razon) {
   fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: JSON.stringify(datos) }).catch(() => {});
 }
 
+// ─── SECCIÓN 1 ───────────────────────────────────────────────────────────────
+// Chequea cuota de no_usuarios para P4=No (sabemos con certeza que es no_usuario).
+// Para P4=Diario NO chequeamos cuota aquí porque aún no sabemos P6:
+//   - P6=Si → usuario (es_usuario_exp=Si)
+//   - P6=No → no_usuario (es_usuario_exp=No)
+// El chequeo correcto se hace en validarSec2 una vez conocida P6.
 function validarSec1() {
   let ok = true;
   ["P1","P2","P3","P4","P5"].forEach(p => {
@@ -628,10 +648,13 @@ function validarSec1() {
 
   esUsuario = (p4 === "Diario");
 
-  if (!MODO_PRUEBA) {
-    if (esUsuario  && cuotasActuales.usuarios    >= META_USUARIOS)    { mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_QUOTAFULL); return; }
-    if (!esUsuario && cuotasActuales.no_usuarios >= META_NO_USUARIOS) { mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_QUOTAFULL); return; }
+  if (!MODO_PRUEBA && !esUsuario) {
+    // P4=No: sabemos que es no_usuario, checar cuota aquí
+    if (cuotasActuales.no_usuarios >= META_NO_USUARIOS) {
+      mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_QUOTAFULL); return;
+    }
   }
+  // P4=Diario: cuota se verifica en sec2 tras conocer P6
 
   document.getElementById("div-usuarios").style.display    = esUsuario ? "block" : "none";
   document.getElementById("div-no-usuarios").style.display = esUsuario ? "none"  : "block";
@@ -640,6 +663,10 @@ function validarSec1() {
   mostrarSeccion("sec2", 15);
 }
 
+// ─── SECCIÓN 2 ───────────────────────────────────────────────────────────────
+// Para P4=Diario: refrescar cuotas y verificar según P6.
+//   P6=Si → chequear cuota de usuarios
+//   P6=No → chequear cuota de no_usuarios
 function validarSec2() {
   let ok = true;
   if (esUsuario) {
@@ -666,9 +693,31 @@ function validarSec2() {
     if (!p8b) ok = false;
   }
   if (!ok) return;
-  mostrarSeccion("sec3", 30);
+
+  // No_usuarios (P4=No) ya pasaron el chequeo en sec1; avanzar directo
+  if (MODO_PRUEBA || !esUsuario) {
+    mostrarSeccion("sec3", 30);
+    return;
+  }
+
+  // P4=Diario: refrescar cuotas y verificar según P6
+  fetch(GOOGLE_SCRIPT_URL)
+    .then(r => r.json())
+    .then(data => {
+      cuotasActuales = data;
+      const p6 = getRadio("P6");
+      if (p6 === "Si" && cuotasActuales.usuarios >= META_USUARIOS) {
+        mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_QUOTAFULL); return;
+      }
+      if (p6 === "No" && cuotasActuales.no_usuarios >= META_NO_USUARIOS) {
+        mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_QUOTAFULL); return;
+      }
+      mostrarSeccion("sec3", 30);
+    })
+    .catch(() => mostrarSeccion("sec3", 30));
 }
 
+// ─── SECCIÓN 3 ───────────────────────────────────────────────────────────────
 function validarSec3() {
   let ok = true;
   ["P9b","P9c","P10","P11","P12a","P12b","P12c","P13","P_sabados"].forEach(p => {
@@ -680,6 +729,8 @@ function validarSec3() {
   mostrarSeccion("sec4", 45);
 }
 
+// ─── SECCIÓN 4 ───────────────────────────────────────────────────────────────
+// Refrescar cuotas y verificar género y NSE antes de avanzar.
 function validarSec4() {
   let ok = true;
   ["P14","P15","P16","P17","P18","P19","P20"].forEach(p => {
@@ -688,11 +739,30 @@ function validarSec4() {
     if (!v) ok = false;
   });
   if (!ok) return;
-  mostrarSeccion("sec5", 60);
+
+  if (MODO_PRUEBA) { mostrarSeccion("sec5", 60); return; }
+
+  fetch(GOOGLE_SCRIPT_URL)
+    .then(r => r.json())
+    .then(data => {
+      cuotasActuales = data;
+
+      const genero  = getRadio("P15");
+      const estrato = parseInt(getRadio("P16"));
+
+      if (genero === "Mujer"  && cuotasActuales.mujeres      >= META_MUJERES)      { mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_QUOTAFULL); return; }
+      if (genero === "Hombre" && cuotasActuales.hombres      >= META_HOMBRES)      { mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_QUOTAFULL); return; }
+      if ([1,2].includes(estrato) && cuotasActuales.estrato_bajo  >= META_ESTRATO_BAJO) { mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_QUOTAFULL); return; }
+      if ([3,4].includes(estrato) && cuotasActuales.estrato_medio >= META_ESTRATO_MED)  { mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_QUOTAFULL); return; }
+      if ([5,6].includes(estrato) && cuotasActuales.estrato_alto  >= META_ESTRATO_ALTO) { mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_QUOTAFULL); return; }
+
+      mostrarSeccion("sec5", 60);
+    })
+    .catch(() => mostrarSeccion("sec5", 60));
 }
 
+// ─── SECCIÓN 5 ───────────────────────────────────────────────────────────────
 function validarSec5() {
-  // CORRECCIÓN: asegurar que div-P27 sea visible si esUsuarioExp es true
   if (esUsuarioExp) document.getElementById("div-P27").style.display = "block";
 
   let ok = true;
