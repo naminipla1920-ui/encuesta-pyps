@@ -612,9 +612,6 @@ function guardarFiltrado(razon) {
   fetch(GOOGLE_SCRIPT_URL, { method: "POST", body: JSON.stringify(datos) }).catch(() => {});
 }
 
-// ─── SECCIÓN 1 ───────────────────────────────────────────────────────────────
-// P4=No: sabemos con certeza que es no_usuario → chequear cuota aquí.
-// P4=Diario: no sabemos aún si P6=Si (usuario) o P6=No (no_usuario) → chequear en sec2.
 function validarSec1() {
   let ok = true;
   ["P1","P2","P3","P4","P5"].forEach(p => {
@@ -644,6 +641,7 @@ function validarSec1() {
 
   if (!MODO_PRUEBA && !esUsuario) {
     if (cuotasActuales.no_usuarios >= META_NO_USUARIOS) {
+      guardarFiltrado("cuota-no_usuario"); // ← NUEVO
       mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_QUOTAFULL); return;
     }
   }
@@ -655,10 +653,6 @@ function validarSec1() {
   mostrarSeccion("sec2", 15);
 }
 
-// ─── SECCIÓN 2 ───────────────────────────────────────────────────────────────
-// P4=Diario: refrescar cuotas y verificar según P6.
-//   P6=Si → chequear cuota de usuarios (es_usuario_exp=Si)
-//   P6=No → chequear cuota de no_usuarios (es_usuario_exp=No)
 function validarSec2() {
   let ok = true;
   if (esUsuario) {
@@ -686,22 +680,22 @@ function validarSec2() {
   }
   if (!ok) return;
 
-  // No_usuarios (P4=No) ya chequearon cuota en sec1 → avanzar directo
   if (MODO_PRUEBA || !esUsuario) {
     mostrarSeccion("sec3", 30);
     return;
   }
 
-  // P4=Diario: refrescar y verificar según P6
   fetch(GOOGLE_SCRIPT_URL)
     .then(r => r.json())
     .then(data => {
       cuotasActuales = data;
       const p6 = getRadio("P6");
       if (p6 === "Si" && cuotasActuales.usuarios >= META_USUARIOS) {
+        guardarFiltrado("cuota-usuario"); // ← NUEVO
         mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_QUOTAFULL); return;
       }
       if (p6 === "No" && cuotasActuales.no_usuarios >= META_NO_USUARIOS) {
+        guardarFiltrado("cuota-no_usuario"); // ← NUEVO
         mostrarSeccion("sec-filtro", 100); redirigir(REDIRECT_QUOTAFULL); return;
       }
       mostrarSeccion("sec3", 30);
@@ -709,7 +703,6 @@ function validarSec2() {
     .catch(() => mostrarSeccion("sec3", 30));
 }
 
-// ─── SECCIÓN 3 ───────────────────────────────────────────────────────────────
 function validarSec3() {
   let ok = true;
   ["P9b","P9c","P10","P11","P12a","P12b","P12c","P13","P_sabados"].forEach(p => {
@@ -721,10 +714,6 @@ function validarSec3() {
   mostrarSeccion("sec4", 45);
 }
 
-// ─── SECCIÓN 4 ───────────────────────────────────────────────────────────────
-// Refrescar cuotas y verificar género y NSE.
-// Si hay desborde: marcar esDesborde=true y dejar continuar para capturar la
-// encuesta completa. Al final se enviará quotafull a Offerwise en vez de complete.
 function validarSec4() {
   let ok = true;
   ["P14","P15","P16","P17","P18","P19","P20"].forEach(p => {
@@ -740,11 +729,9 @@ function validarSec4() {
     .then(r => r.json())
     .then(data => {
       cuotasActuales = data;
-
       const genero  = getRadio("P15");
       const estrato = parseInt(getRadio("P16"));
 
-      // Detectar desborde pero dejar continuar para capturar encuesta completa
       if      (genero === "Mujer"  && cuotasActuales.mujeres      >= META_MUJERES)      { esDesborde = true; razonDesborde = "genero_mujer"; }
       else if (genero === "Hombre" && cuotasActuales.hombres      >= META_HOMBRES)      { esDesborde = true; razonDesborde = "genero_hombre"; }
       else if ([1,2].includes(estrato) && cuotasActuales.estrato_bajo  >= META_ESTRATO_BAJO) { esDesborde = true; razonDesborde = "nse_bajo"; }
@@ -756,7 +743,6 @@ function validarSec4() {
     .catch(() => mostrarSeccion("sec5", 60));
 }
 
-// ─── SECCIÓN 5 ───────────────────────────────────────────────────────────────
 function validarSec5() {
   if (esUsuarioExp) document.getElementById("div-P27").style.display = "block";
 
